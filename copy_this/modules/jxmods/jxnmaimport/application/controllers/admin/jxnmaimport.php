@@ -71,7 +71,8 @@ class jxnmaimport extends oxAdminView
             if (!$rs) {
                 $sSql = "SELECT a.oxid, a.oxactive, a.oxartnum, a.oxmpn, IF(a.oxparentid='',a.oxtitle,(SELECT CONCAT(b.oxtitle,', ',a.oxvarselect) FROM oxarticles b WHERE a.oxparentid=b.oxid)) AS oxtitle, a.oxean, a.oxstock, a.oxstockflag, a.oxprice "
                         . "FROM oxarticles a, tmparticles t "
-                        . "WHERE (a.oxartnum LIKE t.jxartnum OR a.oxmpn LIKE t.jxartnum) AND a.oxactive = 1 ";
+                        . "WHERE (a.oxartnum LIKE t.jxartnum OR a.oxmpn LIKE t.jxartnum) "  //AND a.oxactive = 1 "
+                        . "ORDER BY a.oxartnum";
                 $oSmarty->assign("bJxInvarticles",FALSE);
             }
             else {
@@ -79,7 +80,8 @@ class jxnmaimport extends oxAdminView
                         . "FROM oxarticles a "
                         . "INNER JOIN tmparticles t ON (a.oxartnum LIKE t.jxartnum OR a.oxmpn LIKE t.jxartnum) "
                         . "LEFT JOIN (jxinvarticles i) ON (a.oxid = i.jxartid) "
-                        . "WHERE a.oxactive = 1 ";
+                        //. "WHERE a.oxactive = 1 ";
+                        . "ORDER BY a.oxartnum ";
                 $oSmarty->assign("bJxInvarticles",TRUE);
             }
 

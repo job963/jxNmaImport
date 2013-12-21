@@ -63,8 +63,10 @@ function change_all( name, elem )
         chkbox.checked = elem.checked; 
     else 
         for(var i = 0; i < chkbox.length; i++) {
-            chkbox[i].checked = elem.checked;
-            changeColor(elem.checked,i);
+            if (chkbox[i].disabled == false) {
+                chkbox[i].checked = elem.checked;
+                changeColor(elem.checked,i);
+            }
         }
 }
 
@@ -139,31 +141,36 @@ function changeColor(checkValue,rowNumber)
         [{foreach name=outer item=Article from=$aArticles}]
             <tr>
                 [{ cycle values="listitem,listitem2" assign="listclass" }]
+                [{if $Article.oxactive == 1}]
+                    [{ assign var="txtStyle" value="color:#000000;" }]
+                [{else}]
+                    [{ assign var="txtStyle" value="color:#a0a0a0;" }]
+                [{/if}]
                 <td valign="top" class="[{$listclass}][{ if $Article.oxactive == 1}] active[{/if}]" height="15">
                     <div class="listitemfloating">&nbsp</a></div>
                 </td>
                 <td class="[{$listclass}]">
-                    <a href="Javascript:editThis('[{$Article.oxid}]','article');" id="jxArtNo[{$i}]">
+                    <a href="Javascript:editThis('[{$Article.oxid}]','article');" id="jxArtNo[{$i}]" style="[{$txtStyle}]}">
                        [{$Article.oxartnum}]
                     </a>
                 </td>
                 <td class="[{$listclass}]">
-                    <a href="Javascript:editThis('[{$Article.oxid}]','article');" id="jxMPN[{$i}]">
+                    <a href="Javascript:editThis('[{$Article.oxid}]','article');" id="jxMPN[{$i}]" style="[{$txtStyle}]}">
                        [{$Article.oxmpn}]
                     </a>
                 </td>
                 <td class="[{$listclass}]">
-                    <a href="Javascript:editThis('[{$Article.oxid}]','article');" id="jxTitle[{$i}]">
+                    <a href="Javascript:editThis('[{$Article.oxid}]','article');" id="jxTitle[{$i}]" style="[{$txtStyle}]}">
                        [{$Article.oxtitle}]
                     </a>
                 </td>
                 <td class="[{$listclass}]">
-                    <a href="Javascript:editThis('[{$Article.oxid}]','article');" id="jxEAN[{$i}]">
+                    <a href="Javascript:editThis('[{$Article.oxid}]','article');" id="jxEAN[{$i}]" style="[{$txtStyle}]}">
                        [{$Article.oxean}]
                     </a>
                 </td>
                 <td class="[{$listclass}]">
-                    <a href="Javascript:editThis('[{$Article.oxid}]','article');" id="jxStock[{$i}]">
+                    <a href="Javascript:editThis('[{$Article.oxid}]','article');" id="jxStock[{$i}]" style="[{$txtStyle}]}">
                         [{if bJxInvarticles }]
                             [{$Article.jxinvstock}]&nbsp;&nbsp;([{$Article.oxstock}])
                         [{else}]
@@ -172,7 +179,7 @@ function changeColor(checkValue,rowNumber)
                     </a>
                 </td>
                 <td class="[{$listclass}]">
-                    <a href="Javascript:editThis('[{$Article.oxid}]','article');" id="jxStatus[{$i}]">
+                    <a href="Javascript:editThis('[{$Article.oxid}]','article');" id="jxStatus[{$i}]" style="[{$txtStyle}]}">
                        [{if $Article.oxstockflag == 1}]
                             [{ oxmultilang ident="GENERAL_STANDARD" }]
                        [{elseif $Article.oxstockflag == 4}]
@@ -185,12 +192,15 @@ function changeColor(checkValue,rowNumber)
                     </a>
                 </td>
                 <td class="[{$listclass}]">
-                    <a href="Javascript:editThis('[{$Article.oxid}]','article');" id="jxPrice[{$i}]">
-                       [{$Article.oxprice|string_format:"%.2f"}]</a></td>
+                    <a href="Javascript:editThis('[{$Article.oxid}]','article');" id="jxPrice[{$i}]" style="[{$txtStyle}]}">
+                       [{$Article.oxprice|string_format:"%.2f"}]
+                    </a>
+                </td>
                 <td class="[{$listclass}]" align="center">
                     <input type="checkbox" name="jxnmaimport_oxid[]" 
                            onclick="changeColor(this.checked,[{$i}]);" 
-                           value="[{$Article.oxid}]">
+                           value="[{$Article.oxid}]"
+                            [{if $Article.oxactive == 0}]disabled="disabled"[{/if}]>
                 </td>
                 [{ assign var="i" value=$i+1 }]
             </tr>

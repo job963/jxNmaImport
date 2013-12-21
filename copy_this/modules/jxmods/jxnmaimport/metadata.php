@@ -16,7 +16,7 @@ $aModule = array(
                         'en'=>'Import and deactivation of no more available products.'
                         ),
     'thumbnail'    => 'jxnmaimport.png',
-    'version'      => '0.1',
+    'version'      => '0.2',
     'author'       => 'Joachim Barthel',
     'url'          => 'https://github.com/job963/jxNmaImport',
     'email'        => 'jobarthel@gmail.com',
