@@ -5,7 +5,7 @@
   if(top)
   {
     top.sMenuItem    = "[{ oxmultilang ident="mxuadmin" }]";
-    top.sMenuSubItem = "[{ oxmultilang ident="jxnmaimport_menu" }]";
+    top.sMenuSubItem = "[{ oxmultilang ident="jxupdate_menu" }]";
     top.sWorkArea    = "[{$_act}]";
     top.setTitle();
   }
@@ -90,7 +90,7 @@ function changeColor(checkValue,rowNumber)
 
 </script>
 
-    <h1>[{ oxmultilang ident="JXNMAIMPORT_TITLE" }]</h1>
+    <h1>[{ oxmultilang ident="JXUPDATE_TITLE" }]</h1>
     <form name="transfer" id="transfer" action="[{ $shop->selflink }]" method="post">
         [{ $shop->hiddensid }]
         <input type="hidden" name="oxid" value="[{ $oxid }]">
@@ -106,17 +106,17 @@ function changeColor(checkValue,rowNumber)
     </form>    
 
 
-<form name="jxnmaimport" id="jxnmaimport" action="[{ $oViewConf->selflink }]" method="post">
+<form name="jxupdate" id="jxupdate" action="[{ $oViewConf->selflink }]" method="post">
     <p>
         [{ $oViewConf->hiddensid }]
-        <input type="hidden" name="cl" value="jxnmaimport">
+        <input type="hidden" name="cl" value="jxnupdate">
         <input type="hidden" name="fnc" value="">
         <input type="hidden" name="oxid" value="[{ $oxid }]">
 
         [{if $aArticles }]
         <input type="submit" [{*name="Submit" *}]
-                onClick="document.forms['jxnmaimport'].elements['fnc'].value = 'deactivateArticles';" 
-                value=" [{ oxmultilang ident="JXNMAIMPORT_DEACTIVATE" }] " />[{*</div>*}]
+                onClick="document.forms['jxupdate'].elements['fnc'].value = 'deactivateArticles';" 
+                value=" [{ oxmultilang ident="JXUPDATE_DEACTIVATE" }] " />[{*</div>*}]
         [{/if}]
     </p>
 
@@ -128,13 +128,13 @@ function changeColor(checkValue,rowNumber)
                 <div class="r1"><div class="b1">[{ oxmultilang ident="GENERAL_ACTIVTITLE" }]</div></div>
             </td>
             <td class="listfilter" style="[{$headStyle}]"><div class="r1"><div class="b1">[{ oxmultilang ident="ARTICLE_MAIN_ARTNUM" }]</div></div></td>
-            <td class="listfilter" style="[{$headStyle}]"><div class="r1"><div class="b1">[{ oxmultilang ident="JXNMAIMPORT_MPN" }]</div></div></td>
+            <td class="listfilter" style="[{$headStyle}]"><div class="r1"><div class="b1">[{ oxmultilang ident="JXUPDATE_MPN" }]</div></div></td>
             <td class="listfilter" style="[{$headStyle}]"><div class="r1"><div class="b1">[{ oxmultilang ident="ARTICLE_MAIN_TITLE" }]</div></div></td>
             <td class="listfilter" style="[{$headStyle}]"><div class="r1"><div class="b1">[{ oxmultilang ident="ARTICLE_MAIN_EAN" }]</div></div></td>
             <td class="listfilter" style="[{$headStyle}]"><div class="r1"><div class="b1">[{ oxmultilang ident="ARTICLE_STOCK_STOCK" }]</div></div></td>
             <td class="listfilter" style="[{$headStyle}]"><div class="r1"><div class="b1">[{ oxmultilang ident="ARTICLE_STOCK_STOCKFLAG" }]</div></div></td>
             <td class="listfilter" style="[{$headStyle}]"><div class="r1"><div class="b1">[{ oxmultilang ident="ARTICLE_MAIN_PRICE" }]</div></div></td>
-            <td class="listfilter" style="[{$headStyle}]" align="center"><div class="r1"><div class="b1"><input type="checkbox" onclick="change_all('jxnmaimport_oxid[]', this)"></div></div></td>
+            <td class="listfilter" style="[{$headStyle}]" align="center"><div class="r1"><div class="b1"><input type="checkbox" onclick="change_all('jxupdate_oxid[]', this)"></div></div></td>
         </tr>
 
         [{ assign var="i" value=0 }]
@@ -146,7 +146,7 @@ function changeColor(checkValue,rowNumber)
                 [{else}]
                     [{ assign var="txtStyle" value="color:#a0a0a0;" }]
                 [{/if}]
-                <td valign="top" class="[{$listclass}][{ if $Article.oxactive == 1}] active[{/if}]" height="15">
+                <td valign="top" class="[{$listclass}][{if $Article.oxactive == 1}] active[{/if}]" height="15">
                     <div class="listitemfloating">&nbsp</a></div>
                 </td>
                 <td class="[{$listclass}]">
@@ -197,7 +197,7 @@ function changeColor(checkValue,rowNumber)
                     </a>
                 </td>
                 <td class="[{$listclass}]" align="center">
-                    <input type="checkbox" name="jxnmaimport_oxid[]" 
+                    <input type="checkbox" name="jxupdate_oxid[]" 
                            onclick="changeColor(this.checked,[{$i}]);" 
                            value="[{$Article.oxid}]"
                             [{if $Article.oxactive == 0}]disabled="disabled"[{/if}]>

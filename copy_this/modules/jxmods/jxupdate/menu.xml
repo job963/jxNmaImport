@@ -2,7 +2,7 @@
 <OX>
     <OXMENU id="NAVIGATION_ESHOPADMIN">
         <MAINMENU id="mxmanageprod">
-            <SUBMENU id="jxnmaimport_menu" cl="jxnmaimport">
+            <SUBMENU id="jxupdate_menu" cl="jxupdate">
             </SUBMENU>
         </MAINMENU>
     </OXMENU>

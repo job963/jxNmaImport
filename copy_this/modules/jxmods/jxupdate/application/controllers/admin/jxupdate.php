@@ -1,14 +1,14 @@
 <?php
 
 /*
- *    This file is part of the module jxNmaImport for OXID eShop Community Edition.
+ *    This file is part of the module jxUpdate for OXID eShop Community Edition.
  *
- *    The module jxNmaImport for OXID eShop Community Edition is free software: you can redistribute it and/or modify
+ *    The module jxUpdate for OXID eShop Community Edition is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
  *    (at your option) any later version.
  *
- *    The module jxNmaImport for OXID eShop Community Edition is distributed in the hope that it will be useful,
+ *    The module jxUpdate for OXID eShop Community Edition is distributed in the hope that it will be useful,
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *    GNU General Public License for more details.
@@ -16,25 +16,25 @@
  *    You should have received a copy of the GNU General Public License
  *    along with OXID eShop Community Edition.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @link      https://github.com/job963/jxNmaImport
+ * @link      https://github.com/job963/jxUpdate
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @copyright (C) Joachim Barthel 2012-2013
+ * @copyright (C) Joachim Barthel 2013-2016
  *
  */
  
-class jxnmaimport extends oxAdminView
+class jxupdate extends oxAdminView
 {
-    protected $_sThisTemplate = "jxnmaimport.tpl";
+    protected $_sThisTemplate = "jxupdate.tpl";
 
     public function render()
     {
         parent::render();
-        $oSmarty = oxUtilsView::getInstance()->getSmarty();
+        /*$oSmarty = oxUtilsView::getInstance()->getSmarty();
         $oSmarty->assign( "oViewConf", $this->_aViewData["oViewConf"]);
-        $oSmarty->assign( "shop", $this->_aViewData["shop"]);
+        $oSmarty->assign( "shop", $this->_aViewData["shop"]);*/
         
         $myConfig = oxRegistry::get("oxConfig");
-        $sDelimeter = $myConfig->getConfigParam("sJxNmaImportDelimeter");
+        $sDelimeter = $myConfig->getConfigParam('sJxUpdateDelimeter');
         switch ($sDelimeter) {
             case 'comma':
                 $sDeliChar = ',';
@@ -52,9 +52,9 @@ class jxnmaimport extends oxAdminView
 
         $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
 
-        $sSql = "DROP TEMPORARY TABLE IF EXISTS tmparticles";
+        $sSql = "DROP TEMPORARY TABLE IF EXISTS jxtmparticles";
         $rs = $oDb->Execute($sSql);
-        $sSql = "CREATE TEMPORARY TABLE tmparticles ( jxartnum VARCHAR(255) )";
+        $sSql = "CREATE TEMPORARY TABLE jxtmparticles ( jxartnum VARCHAR(255) )";
         $rs = $oDb->Execute($sSql);
         
         if ($_FILES["uploadfile"]["tmp_name"] != '') {
@@ -93,7 +93,8 @@ class jxnmaimport extends oxAdminView
             }
         }
         
-        $oSmarty->assign("aArticles",$aArticles);
+        //$oSmarty->assign("aArticles",$aArticles);
+        $this->_aViewData["aArticles"] = $aArticles;
 
         return $this->_sThisTemplate;
     }
@@ -102,7 +103,7 @@ class jxnmaimport extends oxAdminView
     
     public function deactivateArticles ()
     {
-        $aSelOxid = oxConfig::getParameter( "jxnmaimport_oxid" ); 
+        $aSelOxid = $this->getConfig()->getRequestParameter( 'jxupdate_oxid' ); 
         
         $sSql = "UPDATE oxarticles SET oxactive=0 WHERE oxid IN('" . implode("','", $aSelOxid) . "') ";
         $oDb = oxDb::getDb();
