@@ -33,7 +33,7 @@ $aModule = array(
     'settings'     => array(
                         array(
                             'group' => 'JXUPDATE_IMPORT', 
-                            'name'  => 'sJxUpdateImportDelimeter', 
+                            'name'  => 'sJxUpdateDelimeter', 
                             'type'  => 'select', 
                             'value' => 'comma',
                             'constrains' => 'comma|semicolon|tabulator', 

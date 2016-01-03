@@ -99,25 +99,51 @@ function changeColor(checkValue,rowNumber)
     </form>
 
 
+    [{if $iCols == 0}]
     <form enctype="multipart/form-data" action="[{ $oViewConf->selflink }]" method="post">
         <input type="hidden" name="MAX_FILE_SIZE" value="100000">
         <input type="file" name="uploadfile" size="40" maxlength="100000">
         <input type="submit" name="Submit" value=" [{ oxmultilang ident="ARTICLE_EXTEND_FILEUPLOAD" }] " />
     </form>    
+    [{/if}]
 
 
 <form name="jxupdate" id="jxupdate" action="[{ $oViewConf->selflink }]" method="post">
     <p>
         [{ $oViewConf->hiddensid }]
-        <input type="hidden" name="cl" value="jxnupdate">
+        <input type="hidden" name="cl" value="jxupdate">
         <input type="hidden" name="fnc" value="">
         <input type="hidden" name="oxid" value="[{ $oxid }]">
+        
+        <input type="hidden" name="jxupdate_icols" value="[{$iCols}]">
+        [{ assign var="jxacols" value="" }]
+        [{foreach name=header item=col from=$aCols key=i}]
+            [{ assign var="jxacols" value=$jxacols|cat:"," }]
+            [{ assign var="jxacols" value=$jxacols|cat:$col }]
+        [{/foreach}]
+        <input type="hidden" name="jxupdate_acols" value="[{$jxacols}]">
 
-        [{if $aArticles }]
-        <input type="submit" [{*name="Submit" *}]
-                onClick="document.forms['jxupdate'].elements['fnc'].value = 'deactivateArticles';" 
-                value=" [{ oxmultilang ident="JXUPDATE_DEACTIVATE" }] " />[{*</div>*}]
-        [{/if}]
+        <table>
+            <tr><td>
+                    [{if $iCols == 0}]
+                        [{* nothing to do *}]
+                    [{elseif $iCols == 1}]
+                        <input type="radio" name="jxupdate_action" id="jxdeactivate" value="deactivate" /><label for="jxdeactivate">[{ oxmultilang ident="JXUPDATE_OPTION_DEACTIVATE" }]</label>
+                    [{else}]
+                        <input type="radio" name="jxupdate_action" id="jxoptupdate" value="update" /> <label for="jxoptupdate">[{ oxmultilang ident="JXUPDATE_OPTION_UPDATE" }]</label><br />
+                        <input type="radio" name="jxupdate_action" id="jxoptdeactivate" value="deactivate" /> <label for="jxoptdeactivate">[{ oxmultilang ident="JXUPDATE_OPTION_DEACTIVATE" }]</label>
+                    [{/if}]
+                </td>
+                
+                <td valign="top">
+                    [{if $aArticles }]
+                    &nbsp;&nbsp;&nbsp;<input type="submit" [{*name="Submit" *}]
+                            onClick="document.forms['jxupdate'].elements['fnc'].value = 'deactivateArticles';" 
+                            value=" [{ oxmultilang ident="JXUPDATE_BTN_UPDATE" }] " />[{*</div>*}]
+                    [{/if}]
+                </td>
+            </tr>
+        </table>
     </p>
 
     <div id="liste">
@@ -134,6 +160,11 @@ function changeColor(checkValue,rowNumber)
             <td class="listfilter" style="[{$headStyle}]"><div class="r1"><div class="b1">[{ oxmultilang ident="ARTICLE_STOCK_STOCK" }]</div></div></td>
             <td class="listfilter" style="[{$headStyle}]"><div class="r1"><div class="b1">[{ oxmultilang ident="ARTICLE_STOCK_STOCKFLAG" }]</div></div></td>
             <td class="listfilter" style="[{$headStyle}]"><div class="r1"><div class="b1">[{ oxmultilang ident="ARTICLE_MAIN_PRICE" }]</div></div></td>
+            [{foreach name=header item=col from=$aCols key=i}]
+                [{if $i != 0}]
+                <td class="listfilter" style="[{$headStyle}]"><div class="r1"><div class="b1"><span style="color:blue;">[{ $col }]</span></div></div></td>
+                [{/if}]
+            [{/foreach}]
             <td class="listfilter" style="[{$headStyle}]" align="center"><div class="r1"><div class="b1"><input type="checkbox" onclick="change_all('jxupdate_oxid[]', this)"></div></div></td>
         </tr>
 
@@ -196,6 +227,37 @@ function changeColor(checkValue,rowNumber)
                        [{$Article.oxprice|string_format:"%.2f"}]
                     </a>
                 </td>
+                [{ assign var="jxavalues" value=$Article.oxartnum }]
+                [{foreach name=header item=col from=$aCols key=k}]
+                    [{if $k != 0}]
+                    [{ assign var="jxavalues" value=$jxavalues|cat:"," }]
+
+                <td class="[{$listclass}]">
+                    <a href="Javascript:editThis('[{$Article.oxid}]','article');" id="jxvalue[{$i}]" style="[{$txtStyle}]}"><span style="color:blue;">
+                        [{if $k == 1}]
+                            [{$Article.jxvalue1}]
+                            [{ assign var="jxavalues" value=$jxavalues|cat:$Article.jxvalue1 }]
+                        [{elseif $k == 2}]
+                            [{$Article.jxvalue2}]
+                            [{ assign var="jxavalues" value=$jxavalues|cat:$Article.jxvalue2 }]
+                        [{elseif $k == 3}]
+                            [{$Article.jxvalue3}]
+                            [{ assign var="jxavalues" value=$jxavalues|cat:$Article.jxvalue3 }]
+                        [{elseif $k == 4}]
+                            [{$Article.jxvalue4}]
+                            [{ assign var="jxavalues" value=$jxavalues|cat:$Article.jxvalue4 }]
+                        [{elseif $k == 5}]
+                            [{$Article.jxvalue5}]
+                            [{ assign var="jxavalues" value=$jxavalues|cat:$Article.jxvalue5 }]
+                        [{/if}]
+                        </span></a>
+                </td>
+
+                    [{/if}]
+                [{/foreach}]
+                <input type="hidden" name="jxupdate_avalues[]" value="[{$jxavalues}]">
+                
+                
                 <td class="[{$listclass}]" align="center">
                     <input type="checkbox" name="jxupdate_oxid[]" 
                            onclick="changeColor(this.checked,[{$i}]);" 

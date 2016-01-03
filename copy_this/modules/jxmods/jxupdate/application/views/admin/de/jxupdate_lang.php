@@ -2,11 +2,13 @@
 $sLangName  = "Deutsch";
 $iLangNr    = 0;
 $aLang = array(
-    'jxupdate_menu'         => 'NV-Artikel deaktivieren',
+    'jxupdate_menu'                 => 'Artikel aktualisieren',
     
-    'JXUPDATE_TITLE'        => 'Nicht verf&uuml;gbare Artikel deaktivieren',
-    'JXUPDATE_DEACTIVATE'   => 'Alle markierten Artikel deaktivieren',
-    'JXUPDATE_MPN'          => 'Herst.-Art.-Nr. (MPN)',
+    'JXUPDATE_TITLE'                => 'Artikel via Import aktualisieren',
+    'JXUPDATE_OPTION_UPDATE'        => 'Werte aktualisieren',
+    'JXUPDATE_OPTION_DEACTIVATE'    => 'Artikel deaktivieren',
+    'JXUPDATE_BTN_UPDATE'           => 'Aktualisieren',
+    'JXUPDATE_MPN'                  => 'Herst.-Art.-Nr. (MPN)',
 
     'SHOP_MODULE_GROUP_JXUPDATE_IMPORT'            => 'Import Einstellungen',
     'SHOP_MODULE_sJxUpdateDelimeter'               => 'CSV Trennzeichen',
