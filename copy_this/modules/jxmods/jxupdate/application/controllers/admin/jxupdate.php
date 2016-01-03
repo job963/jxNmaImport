@@ -57,10 +57,10 @@ class jxupdate extends oxAdminView
         $sSql = "CREATE TEMPORARY TABLE jxtmparticles ( jxartnum VARCHAR(255) )";
         $rs = $oDb->Execute($sSql);
         
-        if ($_FILES["uploadfile"]["tmp_name"] != '') {
-            $fh = fopen($_FILES["uploadfile"]["tmp_name"],"r");
+        if ($_FILES["uploadfile"]["jxtmp_name"] != '') {
+            $fh = fopen($_FILES["uploadfile"]["jxtmp_name"],"r");
             while (($aRow = fgetcsv($fh, 1000, $sDeliChar)) !== FALSE) {
-                $sSql = "INSERT INTO tmparticles (jxartnum) VALUES ('%{$aRow[0]}%') ";
+                $sSql = "INSERT INTO jxtmparticles (jxartnum) VALUES ('%{$aRow[0]}%') ";
                 $rs = $oDb->Execute($sSql);
             }
             fclose($fh);
@@ -70,7 +70,7 @@ class jxupdate extends oxAdminView
             $rs = $oDb->Execute($sSql);
             if (!$rs) {
                 $sSql = "SELECT a.oxid, a.oxactive, a.oxartnum, a.oxmpn, IF(a.oxparentid='',a.oxtitle,(SELECT CONCAT(b.oxtitle,', ',a.oxvarselect) FROM oxarticles b WHERE a.oxparentid=b.oxid)) AS oxtitle, a.oxean, a.oxstock, a.oxstockflag, a.oxprice "
-                        . "FROM oxarticles a, tmparticles t "
+                        . "FROM oxarticles a, jxtmparticles t "
                         . "WHERE (a.oxartnum LIKE t.jxartnum OR a.oxmpn LIKE t.jxartnum) "  //AND a.oxactive = 1 "
                         . "ORDER BY a.oxartnum";
                 $oSmarty->assign("bJxInvarticles",FALSE);
@@ -78,7 +78,7 @@ class jxupdate extends oxAdminView
             else {
                 $sSql = "SELECT a.oxid, a.oxactive, a.oxartnum, a.oxmpn, IF(a.oxparentid='',a.oxtitle,(SELECT CONCAT(b.oxtitle,', ',a.oxvarselect) FROM oxarticles b WHERE a.oxparentid=b.oxid)) AS oxtitle, a.oxean, i.jxinvstock, a.oxstock, a.oxstockflag, a.oxprice "
                         . "FROM oxarticles a "
-                        . "INNER JOIN tmparticles t ON (a.oxartnum LIKE t.jxartnum OR a.oxmpn LIKE t.jxartnum) "
+                        . "INNER JOIN jxtmparticles t ON (a.oxartnum LIKE t.jxartnum OR a.oxmpn LIKE t.jxartnum) "
                         . "LEFT JOIN (jxinvarticles i) ON (a.oxid = i.jxartid) "
                         //. "WHERE a.oxactive = 1 ";
                         . "ORDER BY a.oxartnum ";
