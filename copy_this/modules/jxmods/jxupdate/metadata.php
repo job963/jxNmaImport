@@ -16,7 +16,7 @@ $aModule = array(
                         'en'=>'Import and deactivation of no more available products.'
                         ),
     'thumbnail'    => 'jxupdate.png',
-    'version'      => '0.2',
+    'version'      => '0.3',
     'author'       => 'Joachim Barthel',
     'url'          => 'https://github.com/job963/jxUpdate',
     'email'        => 'jobarthel@gmail.com',
