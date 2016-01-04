@@ -50,6 +50,16 @@ class jxupdate extends oxAdminView
                 break;
         }
 
+        $sIdField = $myConfig->getConfigParam('sJxUpdateIdField');
+
+        $sCompareMode = $myConfig->getConfigParam('sJxUpdateCompareMode');
+
+        if( $myConfig->getConfigParam('sJxUpdateIgnoreInactive') == True ) {
+            $sIgnoreInactive = "";
+        } else {
+            $sIgnoreInactive = "AND a.oxactive = 1 ";
+        }
+        
         $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
 
         if ($_FILES["uploadfile"]["tmp_name"] != '') {
@@ -61,6 +71,8 @@ class jxupdate extends oxAdminView
             $this->_aViewData["aCols"] = $aRow;
             $iCols = count($aRow);
             $this->_aViewData["iCols"] = $iCols;
+            $this->_checkTableFields($aRow);
+
             $sSql = "DROP TEMPORARY TABLE IF EXISTS jxtmparticles";
             $rs = $oDb->Execute($sSql);
             $sSql = "CREATE TEMPORARY TABLE jxtmparticles ( jxartnum VARCHAR(255)";
@@ -77,6 +89,7 @@ class jxupdate extends oxAdminView
                 $sSql .= ",jxvalue{$i}";
             }
             $sSql .= ") VALUES (";
+            $iSearchRows = 0;
             while (($aRow = fgetcsv($fh, 1000, $sDeliChar)) !== FALSE) {
                 /*$sArtnum = $aRow[0];
                 if(isset($aRow[1])) {
@@ -85,13 +98,28 @@ class jxupdate extends oxAdminView
                 else {
                     $sValue = '';
                 }*/
-                $sInsert = $sSql . "'%{$aRow[0]}%'";
+                switch ($sCompareMode) {
+                    case 'equal':
+                        $sInsert = $sSql . "'{$aRow[0]}'";
+                        break;
+                    case 'beginswith':
+                        $sInsert = $sSql . "'{$aRow[0]}%'";
+                        break;
+                    case 'endswith':
+                        $sInsert = $sSql . "'%{$aRow[0]}'";
+                        break;
+                    case 'contains':
+                        $sInsert = $sSql . "'%{$aRow[0]}%'";
+                        break;
+                }
+                //--$sInsert = $sSql . "'%{$aRow[0]}%'";
                 for ( $i=1; $i<=$iCols; $i++ ) {
                     $sInsert .= ",'" . $aRow[$i] . "'";
                 }
                 $sInsert .= ")";
                 //$sSql = "INSERT INTO jxtmparticles (jxartnum,jxvalue) VALUES ('%{$aRow[0]}%','{$aRow[1]}') ";
                 $rs = $oDb->Execute($sInsert);
+                $iSearchRows++;
             }
             fclose($fh);
         
@@ -109,7 +137,8 @@ class jxupdate extends oxAdminView
                             . "a.oxean, a.oxstock, a.oxstockflag, a.oxprice "
                             . $sFields
                         . "FROM oxarticles a, jxtmparticles t "
-                        . "WHERE (a.oxartnum LIKE t.jxartnum OR a.oxmpn LIKE t.jxartnum) "  //AND a.oxactive = 1 "
+                        . "WHERE a.{$sIdField} LIKE t.jxartnum "
+                        . $sIgnoreInactive
                         . "ORDER BY a.oxartnum";
                 //$oSmarty->assign("bJxInvarticles",FALSE);
                 $this->_aViewData["bJxInvarticles"] = FALSE;
@@ -120,7 +149,7 @@ class jxupdate extends oxAdminView
                             . "a.oxean, i.jxinvstock, a.oxstock, a.oxstockflag, a.oxprice "
                             . $sFields
                         . "FROM oxarticles a "
-                        . "INNER JOIN jxtmparticles t ON (a.oxartnum LIKE t.jxartnum OR a.oxmpn LIKE t.jxartnum) "
+                        . "INNER JOIN jxtmparticles t ON (a.{$sIdField} LIKE t.jxartnum) "
                         . "LEFT JOIN (jxinvarticles i) ON (a.oxid = i.jxartid) "
                         //. "WHERE a.oxactive = 1 ";
                         . "ORDER BY a.oxartnum ";
@@ -134,11 +163,19 @@ class jxupdate extends oxAdminView
                 array_push($aArticles, $rs->fields);
                 $rs->MoveNext();
             }
+            $iFoundRows = count($aArticles);
         }
         
         //$oSmarty->assign("aArticles",$aArticles);
         $this->_aViewData["aArticles"] = $aArticles;
-
+        $this->_aViewData["iSearchRows"] = $iSearchRows;
+        $this->_aViewData["iFoundRows"] = $iFoundRows;
+        
+        $oModule = oxNew('oxModule');
+        $oModule->load('jxupdate');
+        $this->_aViewData["sModuleId"] = $oModule->getId();
+        $this->_aViewData["sModuleVersion"] = $oModule->getInfo('version');
+        
         return $this->_sThisTemplate;
     }
 
@@ -167,9 +204,9 @@ class jxupdate extends oxAdminView
                 $sSql = "UPDATE oxarticles SET ";
                 $aSql = array();
                 for ($i=1; $i<$iCols; $i++) {
-                    $aSql[] = $aCols[$i] . "= '" . $aValues[$i] . "' ";
+                    $aSql[] = $aCols[$i] . "= '" . $aValues[$i] . "'";
                 }
-                $sSql .= implode(',', $aSql) . "WHERE oxid = '{$Oxid}' ";
+                $sSql .= implode(', ', $aSql) . " WHERE oxid = '{$Oxid}' ";
                 //echo $sSql.'<br>';
                 $ret = $oDb->Execute($sSql);
             }
@@ -181,6 +218,18 @@ class jxupdate extends oxAdminView
         }
 
         return;
+    }
+    
+    
+    private function _checkTableFields ($aFields) {
+        $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
+        foreach ($aFields as $key => $sField) {
+            if ( !$oDb->getOne( "SHOW COLUMNS FROM oxarticles LIKE '{$sField}'", false, false ) ) {
+                echo '<div style="border:2px solid #dd0000;margin:10px;padding:5px;background-color:#ffdddd;font-family:sans-serif;font-size:12px;">';
+                echo "Error in import file: Database field <b>{$sField}</b> doesn't exist.";
+                echo '</div>';
+            }
+        }
     }
 
 }

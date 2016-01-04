@@ -39,6 +39,28 @@ $aModule = array(
                             'constrains' => 'comma|semicolon|tabulator', 
                             'position' => 0 
                             ),
+                        array(
+                            'group' => 'JXUPDATE_IMPORT', 
+                            'name'  => 'sJxUpdateIdField', 
+                            'type'  => 'select', 
+                            'value' => 'oxartnum',
+                            'constrains' => 'oxartnum|oxmpn|oxean|oxdistean', 
+                            'position' => 0 
+                            ),
+                        array(
+                            'group' => 'JXUPDATE_IMPORT', 
+                            'name'  => 'sJxUpdateCompareMode', 
+                            'type'  => 'select', 
+                            'value' => 'contains',
+                            'constrains' => 'equal|beginswith|endswith|contains', 
+                            'position' => 3 
+                            ),
+                        array(
+                            'group' => 'JXUPDATE_IMPORT', 
+                            'name'  => 'sJxUpdateIgnoreInactive', 
+                            'type'  => 'bool', 
+                            'value' => TRUE
+                            ),
                         )
     );
 

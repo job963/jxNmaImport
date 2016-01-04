@@ -98,6 +98,9 @@ function changeColor(checkValue,rowNumber)
         <input type="hidden" name="updatelist" value="1">
     </form>
 
+    <div style="position:absolute;top:4px;right:8px;color:gray;font-size:0.9em;border:1px solid gray;border-radius:3px;">
+        &nbsp;[{$sModuleId}]&nbsp;[{$sModuleVersion}]&nbsp;
+    </div>
 
     [{if $iCols == 0}]
     <form enctype="multipart/form-data" action="[{ $oViewConf->selflink }]" method="post">
@@ -154,7 +157,7 @@ function changeColor(checkValue,rowNumber)
                 <div class="r1"><div class="b1">[{ oxmultilang ident="GENERAL_ACTIVTITLE" }]</div></div>
             </td>
             <td class="listfilter" style="[{$headStyle}]"><div class="r1"><div class="b1">[{ oxmultilang ident="ARTICLE_MAIN_ARTNUM" }]</div></div></td>
-            <td class="listfilter" style="[{$headStyle}]"><div class="r1"><div class="b1">[{ oxmultilang ident="JXUPDATE_MPN" }]</div></div></td>
+            <td class="listfilter" style="[{$headStyle}]"><div class="r1"><div class="b1">[{ oxmultilang ident="JXUPDATE_OXMPN" }]</div></div></td>
             <td class="listfilter" style="[{$headStyle}]"><div class="r1"><div class="b1">[{ oxmultilang ident="ARTICLE_MAIN_TITLE" }]</div></div></td>
             <td class="listfilter" style="[{$headStyle}]"><div class="r1"><div class="b1">[{ oxmultilang ident="ARTICLE_MAIN_EAN" }]</div></div></td>
             <td class="listfilter" style="[{$headStyle}]"><div class="r1"><div class="b1">[{ oxmultilang ident="ARTICLE_STOCK_STOCK" }]</div></div></td>
@@ -162,7 +165,9 @@ function changeColor(checkValue,rowNumber)
             <td class="listfilter" style="[{$headStyle}]"><div class="r1"><div class="b1">[{ oxmultilang ident="ARTICLE_MAIN_PRICE" }]</div></div></td>
             [{foreach name=header item=col from=$aCols key=i}]
                 [{if $i != 0}]
-                <td class="listfilter" style="[{$headStyle}]"><div class="r1"><div class="b1"><span style="color:blue;">[{ $col }]</span></div></div></td>
+                    [{assign var="upCol" value=$col|upper }]
+                    [{assign var="colHeader" value="JXUPDATE_"|cat:$upCol }]
+                    <td class="listfilter" style="[{$headStyle}]"><div class="r1"><div class="b1"><span style="color:blue;">[{ oxmultilang ident=$colHeader }]</span></div></div></td>
                 [{/if}]
             [{/foreach}]
             <td class="listfilter" style="[{$headStyle}]" align="center"><div class="r1"><div class="b1"><input type="checkbox" onclick="change_all('jxupdate_oxid[]', this)"></div></div></td>
@@ -269,6 +274,11 @@ function changeColor(checkValue,rowNumber)
         [{/foreach}]
 
         </table>
+    </div>
+    <div>
+        [{if $iFoundRows > 0}]
+            [{$iFoundRows}] von [{$iSearchRows}] Artikel gefunden
+        [{/if}]
     </div>
 </form>
 [{*</div>*}]
