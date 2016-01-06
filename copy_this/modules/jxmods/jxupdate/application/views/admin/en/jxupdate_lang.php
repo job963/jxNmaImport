@@ -7,7 +7,7 @@ $aLang = array(
     'JXUPDATE_TITLE'        => 'Update products by Import',
     'JXUPDATE_OPTION_UPDATE'        => 'Update values',
     'JXUPDATE_OPTION_DEACTIVATE'    => 'Deactivate products',
-    'JXUPDATE_MPN'          => 'Manufacturer product number (MPN)',
+    'JXUPDATE_MPN'          => 'Manufacturer product number',
 
     'SHOP_MODULE_GROUP_JXUPDATE_IMPORT'            => 'Import settings',
     'SHOP_MODULE_sJxUpdateDelimeter'               => 'CSV delimiter',

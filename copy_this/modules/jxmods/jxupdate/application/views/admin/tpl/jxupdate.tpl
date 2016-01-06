@@ -276,7 +276,7 @@ function changeColor(checkValue,rowNumber)
         </table>
     </div>
     <div>
-        [{if $iFoundRows > 0}]
+        [{if $iSearchRows > 0}]
             [{$iFoundRows}] von [{$iSearchRows}] Artikel gefunden
         [{/if}]
     </div>

@@ -10,7 +10,7 @@ $aLang = array(
     'JXUPDATE_BTN_UPDATE'           => 'Aktualisieren',
     
     'JXUPDATE_OXARTNUM'             => 'Art.-Nr.',
-    'JXUPDATE_OXMPN'                => 'Herst. Art.-Nr. (MPN)',
+    'JXUPDATE_OXMPN'                => 'Herst. Art.-Nr.',
     'JXUPDATE_OXEAN'                => 'EAN',
     'JXUPDATE_OXDISTEAN'            => 'Herst. EAN',
     'JXUPDATE_OXPRICE'              => 'Preis',

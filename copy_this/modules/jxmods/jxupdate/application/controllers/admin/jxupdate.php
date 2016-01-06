@@ -29,9 +29,6 @@ class jxupdate extends oxAdminView
     public function render()
     {
         parent::render();
-        /*$oSmarty = oxUtilsView::getInstance()->getSmarty();
-        $oSmarty->assign( "oViewConf", $this->_aViewData["oViewConf"]);
-        $oSmarty->assign( "shop", $this->_aViewData["shop"]);*/
         
         $myConfig = oxRegistry::get("oxConfig");
         $sDelimeter = $myConfig->getConfigParam('sJxUpdateDelimeter');
@@ -51,6 +48,7 @@ class jxupdate extends oxAdminView
         }
 
         $sIdField = $myConfig->getConfigParam('sJxUpdateIdField');
+//echo '<b>'.$sIdField.'</b>';
 
         $sCompareMode = $myConfig->getConfigParam('sJxUpdateCompareMode');
 
@@ -67,7 +65,6 @@ class jxupdate extends oxAdminView
             
             //get column headers
             $aRow = fgetcsv($fh, 1000, $sDeliChar);
-            //--$aRow = explode( $sDeliChar, fgets($fh) );
             $this->_aViewData["aCols"] = $aRow;
             $iCols = count($aRow);
             $this->_aViewData["iCols"] = $iCols;
@@ -75,29 +72,21 @@ class jxupdate extends oxAdminView
 
             $sSql = "DROP TEMPORARY TABLE IF EXISTS jxtmparticles";
             $rs = $oDb->Execute($sSql);
-            $sSql = "CREATE TEMPORARY TABLE jxtmparticles ( jxartnum VARCHAR(255)";
+            $sSql = "CREATE TEMPORARY TABLE jxtmparticles ( jxsearch VARCHAR(255)";
             for ( $i=1; $i<=$iCols; $i++ ) {
                 $sSql .= ", jxvalue{$i} VARCHAR(255)";
             }
             $sSql .= " )";
-            //jxvalue1 VARCHAR(255), jxvalue2 VARCHAR(255), jxvalue3 VARCHAR(255), jxvalue4 VARCHAR(255), jxvalue5 VARCHAR(255) )";
             $rs = $oDb->Execute($sSql);
 
             //read data
-            $sSql = "INSERT INTO jxtmparticles (jxartnum";
-            for ( $i=1; $i<=$iCols; $i++ ) {
+            $sSql = "INSERT INTO jxtmparticles (jxsearch";
+            for ( $i=1; $i<$iCols; $i++ ) {
                 $sSql .= ",jxvalue{$i}";
             }
             $sSql .= ") VALUES (";
             $iSearchRows = 0;
             while (($aRow = fgetcsv($fh, 1000, $sDeliChar)) !== FALSE) {
-                /*$sArtnum = $aRow[0];
-                if(isset($aRow[1])) {
-                    $sValue = $aRow[1];
-                }
-                else {
-                    $sValue = '';
-                }*/
                 switch ($sCompareMode) {
                     case 'equal':
                         $sInsert = $sSql . "'{$aRow[0]}'";
@@ -112,20 +101,19 @@ class jxupdate extends oxAdminView
                         $sInsert = $sSql . "'%{$aRow[0]}%'";
                         break;
                 }
-                //--$sInsert = $sSql . "'%{$aRow[0]}%'";
-                for ( $i=1; $i<=$iCols; $i++ ) {
+                for ( $i=1; $i<$iCols; $i++ ) {
                     $sInsert .= ",'" . $aRow[$i] . "'";
                 }
                 $sInsert .= ")";
-                //$sSql = "INSERT INTO jxtmparticles (jxartnum,jxvalue) VALUES ('%{$aRow[0]}%','{$aRow[1]}') ";
                 $rs = $oDb->Execute($sInsert);
+//echo '<pre>'.$sInsert.'</pre>';
                 $iSearchRows++;
             }
             fclose($fh);
         
         
             $sFields = "";
-            for ( $i=1; $i<=$iCols; $i++ ) {
+            for ( $i=1; $i<$iCols; $i++ ) {
                 $sFields .= ", t.jxvalue{$i}";
             }
             $sFields .= " ";
@@ -134,39 +122,40 @@ class jxupdate extends oxAdminView
             if (!$rs) {
                 $sSql = "SELECT a.oxid, a.oxactive, a.oxartnum, a.oxmpn, "
                             . "IF(a.oxparentid='',a.oxtitle,(SELECT CONCAT(b.oxtitle,', ',a.oxvarselect) FROM oxarticles b WHERE a.oxparentid=b.oxid)) AS oxtitle, "
-                            . "a.oxean, a.oxstock, a.oxstockflag, a.oxprice "
+                            . "a.oxean, a.oxdistean, a.oxstock, a.oxstockflag, a.oxprice "
                             . $sFields
                         . "FROM oxarticles a, jxtmparticles t "
-                        . "WHERE a.{$sIdField} LIKE t.jxartnum "
+                        . "WHERE a.{$sIdField} LIKE t.jxsearch "
                         . $sIgnoreInactive
-                        . "ORDER BY a.oxartnum";
-                //$oSmarty->assign("bJxInvarticles",FALSE);
+                        . "ORDER BY a.{$sIdField}";
                 $this->_aViewData["bJxInvarticles"] = FALSE;
             }
             else {
                 $sSql = "SELECT a.oxid, a.oxactive, a.oxartnum, a.oxmpn, "
                             . "IF(a.oxparentid='',a.oxtitle,(SELECT CONCAT(b.oxtitle,', ',a.oxvarselect) FROM oxarticles b WHERE a.oxparentid=b.oxid)) AS oxtitle, "
-                            . "a.oxean, i.jxinvstock, a.oxstock, a.oxstockflag, a.oxprice "
+                            . "a.oxean, a.oxdistean, i.jxinvstock, a.oxstock, a.oxstockflag, a.oxprice "
                             . $sFields
                         . "FROM oxarticles a "
-                        . "INNER JOIN jxtmparticles t ON (a.{$sIdField} LIKE t.jxartnum) "
+                        . "INNER JOIN jxtmparticles t ON (a.{$sIdField} LIKE t.jxsearch) "
                         . "LEFT JOIN (jxinvarticles i) ON (a.oxid = i.jxartid) "
                         //. "WHERE a.oxactive = 1 ";
-                        . "ORDER BY a.oxartnum ";
+                        . "ORDER BY a.{$sIdField} ";
                 //$oSmarty->assign("bJxInvarticles",TRUE);
                 $this->_aViewData["bJxInvarticles"] = TRUE;
             }
 
             $aArticles = array();
+//echo '<br><b>'.$sSql.'</b>';            
             $rs = $oDb->Execute($sSql);
-            while (!$rs->EOF) {
-                array_push($aArticles, $rs->fields);
-                $rs->MoveNext();
+            if ($rs) {
+                while (!$rs->EOF) {
+                    array_push($aArticles, $rs->fields);
+                    $rs->MoveNext();
+                }
             }
             $iFoundRows = count($aArticles);
         }
         
-        //$oSmarty->assign("aArticles",$aArticles);
         $this->_aViewData["aArticles"] = $aArticles;
         $this->_aViewData["iSearchRows"] = $iSearchRows;
         $this->_aViewData["iFoundRows"] = $iFoundRows;
