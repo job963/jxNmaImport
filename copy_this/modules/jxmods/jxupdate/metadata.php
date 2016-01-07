@@ -12,8 +12,8 @@ $aModule = array(
     'id'           => 'jxupdate',
     'title'        => 'jxUpdate - Update of Articles by Imports',
     'description'  => array(
-                        'de'=>'Import und Deaktivierung von nicht mehr lieferbaren Artikeln.',
-                        'en'=>'Import and deactivation of no more available products.'
+                        'de' => 'Aktualisierung von Artikeln durch CSV Import.',
+                        'en' => 'Updating of products by CSV import.'
                         ),
     'thumbnail'    => 'jxupdate.png',
     'version'      => '0.3',

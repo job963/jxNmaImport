@@ -60,8 +60,8 @@ class jxupdate extends oxAdminView
         
         $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
 
-        if ($_FILES["uploadfile"]["tmp_name"] != '') {
-            $fh = fopen($_FILES["uploadfile"]["tmp_name"],"r");
+        if ($_FILES['uploadfile']['tmp_name'] != '') {
+            $fh = fopen($_FILES['uploadfile']['tmp_name'],"r");
             
             //get column headers
             $aRow = fgetcsv($fh, 1000, $sDeliChar);
@@ -108,6 +108,11 @@ class jxupdate extends oxAdminView
                 $rs = $oDb->Execute($sInsert);
 //echo '<pre>'.$sInsert.'</pre>';
                 $iSearchRows++;
+        
+                $this->_aViewData["sFilename"] = $_FILES['uploadfile']['name'];
+                $this->_aViewData["sSeparator"] = $sDeliChar;
+                $this->_aViewData["sCompareMode"] = $sCompareMode;
+                $this->_aViewData["sIdField"] = $sIdField;
             }
             fclose($fh);
         
@@ -140,7 +145,6 @@ class jxupdate extends oxAdminView
                         . "LEFT JOIN (jxinvarticles i) ON (a.oxid = i.jxartid) "
                         //. "WHERE a.oxactive = 1 ";
                         . "ORDER BY a.{$sIdField} ";
-                //$oSmarty->assign("bJxInvarticles",TRUE);
                 $this->_aViewData["bJxInvarticles"] = TRUE;
             }
 

@@ -34,7 +34,7 @@ $aLang = array(
     'SHOP_MODULE_sJxUpdateCompareMode_beginswith'   => 'beginnt mit',
     'SHOP_MODULE_sJxUpdateCompareMode_endswith'     => 'endet mit',
     'SHOP_MODULE_sJxUpdateCompareMode_contains'     => 'enth&auml;lt',
-    'SHOP_MODULE_sJxUpdateIgnoreInactive'           => 'Deaktivierte Artikel ignorieren',
+    'SHOP_MODULE_sJxUpdateIgnoreInactive'           => 'Deaktivierte Artikel einschlie&szig;en',
     
     'charset'                       => 'ISO-8859-15',
 );

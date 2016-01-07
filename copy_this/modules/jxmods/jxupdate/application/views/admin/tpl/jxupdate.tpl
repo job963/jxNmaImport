@@ -2,7 +2,12 @@
 [{include file="headitem.tpl" title="GENERAL_ADMIN_TITLE"|oxmultilangassign box=" "}]
 
 <script type="text/javascript">
-  if(top)
+
+var rowschecked = 0;
+var updateDisplay = true;
+
+
+    if(top)
   {
     top.sMenuItem    = "[{ oxmultilang ident="mxuadmin" }]";
     top.sMenuSubItem = "[{ oxmultilang ident="jxupdate_menu" }]";
@@ -59,6 +64,7 @@ function change_all( name, elem )
     if (!chkbox) 
         return alert(name + " doesn't exist!");
 
+    updateDisplay = false;
     if (!chkbox.length) 
         chkbox.checked = elem.checked; 
     else 
@@ -68,6 +74,14 @@ function change_all( name, elem )
                 changeColor(elem.checked,i);
             }
         }
+    
+    updateDisplay = true;
+    //document.getElementById('rowschecked').innerHTML = rowschecked;
+    /*if ((rowschecked > 0) && (checkRadios()))
+        document.getElementById('btnupdate').disabled = false;
+    else
+        document.getElementById('btnupdate').disabled = true;*/
+    checkButton();
 }
 
 function changeColor(checkValue,rowNumber)
@@ -79,12 +93,55 @@ function changeColor(checkValue,rowNumber)
             document.getElementById(elemName).style.color = "blue";
             document.getElementById(elemName).style.fontWeight = "bold";
         }
+        rowschecked++;
     } else {
         for (var i = 0; i < aColumns.length; i++) {
             elemName = aColumns[i] + rowNumber;
             document.getElementById(elemName).style.color = "black";
             document.getElementById(elemName).style.fontWeight = "normal";
         }
+        rowschecked--;
+    }
+    if (rowschecked <= 0) {
+        rowschecked = 0;
+        //document.getElementById('maincheck').checked = false;
+    }
+    if (rowschecked > [{$iFoundRows}]) {
+        rowschecked = [{$iFoundRows}];
+    }
+    /*if (updateDisplay) {
+        //document.getElementById('rowschecked').innerHTML = rowschecked;
+        if ((rowschecked > 0) && (checkRadios()))
+            document.getElementById('btnupdate').disabled = false;
+        else
+            document.getElementById('btnupdate').disabled = true;
+    }*/
+    checkButton();
+}
+    
+    
+function checkRadios()
+{
+    var elemRadio = document.getElementsByName('jxupdate_action');
+    //var ischecked_method = false;
+    for ( var i = 0; i < elemRadio.length; i++) {
+        if(elemRadio[i].checked) {
+            //ischecked_method = true;
+            return true;
+        }
+    }
+    return false;
+}
+
+
+function checkButton()
+{
+    if (updateDisplay) {
+        //document.getElementById('rowschecked').innerHTML = rowschecked;
+        if ((rowschecked > 0) && (checkRadios()))
+            document.getElementById('btnupdate').disabled = false;
+        else
+            document.getElementById('btnupdate').disabled = true;
     }
 }
 
@@ -112,7 +169,6 @@ function changeColor(checkValue,rowNumber)
 
 
 <form name="jxupdate" id="jxupdate" action="[{ $oViewConf->selflink }]" method="post">
-    <p>
         [{ $oViewConf->hiddensid }]
         <input type="hidden" name="cl" value="jxupdate">
         <input type="hidden" name="fnc" value="">
@@ -125,29 +181,50 @@ function changeColor(checkValue,rowNumber)
             [{ assign var="jxacols" value=$jxacols|cat:$col }]
         [{/foreach}]
         <input type="hidden" name="jxupdate_acols" value="[{$jxacols}]">
-
+        
+        [{if $sFilename != ""}]
+        <table><tr><td>
+            Filename: <b>[{ $sFilename }]</b>
+        </td></tr></table>
         <table>
-            <tr><td>
-                    [{if $iCols == 0}]
-                        [{* nothing to do *}]
-                    [{elseif $iCols == 1}]
-                        <input type="radio" name="jxupdate_action" id="jxdeactivate" value="deactivate" /><label for="jxdeactivate">[{ oxmultilang ident="JXUPDATE_OPTION_DEACTIVATE" }]</label>
-                    [{else}]
-                        <input type="radio" name="jxupdate_action" id="jxoptupdate" value="update" /> <label for="jxoptupdate">[{ oxmultilang ident="JXUPDATE_OPTION_UPDATE" }]</label><br />
-                        <input type="radio" name="jxupdate_action" id="jxoptdeactivate" value="deactivate" /> <label for="jxoptdeactivate">[{ oxmultilang ident="JXUPDATE_OPTION_DEACTIVATE" }]</label>
-                    [{/if}]
-                </td>
-                
-                <td valign="top">
-                    [{if $aArticles }]
-                    &nbsp;&nbsp;&nbsp;<input type="submit" [{*name="Submit" *}]
-                            onClick="document.forms['jxupdate'].elements['fnc'].value = 'deactivateArticles';" 
-                            value=" [{ oxmultilang ident="JXUPDATE_BTN_UPDATE" }] " />[{*</div>*}]
-                    [{/if}]
-                </td>
+            <tr>
+                <td>[{ oxmultilang ident="SHOP_MODULE_sJxUpdateIdField" }]:</td>
+                [{assign var="sTransIdField" value="SHOP_MODULE_sJxUpdateIdField_"|cat:$sIdField }]
+                <td><b>[{ oxmultilang ident=$sTransIdField }]</b></td>
+                <td>&nbsp;&nbsp;&nbsp;</td>
+                <td>[{ oxmultilang ident="SHOP_MODULE_sJxUpdateDelimeter" }]:</td>
+                <td><b>[{ $sSeparator }]</b></td>
+                <td>&nbsp;&nbsp;&nbsp;</td>
+                <td>[{ oxmultilang ident="SHOP_MODULE_sJxUpdateCompareMode" }]:</td>
+                [{assign var="sTransCompareMode" value="SHOP_MODULE_sJxUpdateCompareMode_"|cat:$sCompareMode }]
+                <td><b>[{ oxmultilang ident=$sTransCompareMode }]</b></td>
             </tr>
         </table>
-    </p>
+        <br />
+        [{/if}]
+
+        [{if $aArticles }]
+            <table>
+                <tr><td>
+                        [{if $iCols == 0}]
+                            [{* nothing to do *}]
+                        [{elseif $iCols == 1}]
+                            <input type="radio" name="jxupdate_action" id="jxdeactivate" value="deactivate" onclick="checkButton();" /><label for="jxdeactivate">[{ oxmultilang ident="JXUPDATE_OPTION_DEACTIVATE" }]</label>
+                        [{else}]
+                            <input type="radio" name="jxupdate_action" id="jxoptupdate" value="update" onclick="checkButton();" /> <label for="jxoptupdate">[{ oxmultilang ident="JXUPDATE_OPTION_UPDATE" }]</label><br />
+                            <input type="radio" name="jxupdate_action" id="jxoptdeactivate" value="deactivate" onclick="checkButton();" /> <label for="jxoptdeactivate">[{ oxmultilang ident="JXUPDATE_OPTION_DEACTIVATE" }]</label>
+                        [{/if}]
+                    </td>
+
+                    <td valign="top">
+                        &nbsp;&nbsp;&nbsp;<input type="submit" id="btnupdate" [{*name="Submit" *}] disabled="disabled"
+                            onClick="document.forms['jxupdate'].elements['fnc'].value = 'deactivateArticles';" 
+                            value=" [{ oxmultilang ident="JXUPDATE_BTN_UPDATE" }] " />[{*</div>*}]
+                    </td>
+                </tr>
+            </table>
+        [{/if}]
+        <br />
 
     <div id="liste">
         <table cellspacing="0" cellpadding="0" border="0" width="99%">
@@ -228,7 +305,7 @@ function changeColor(checkValue,rowNumber)
                     </a>
                 </td>
                 <td class="[{$listclass}]">
-                    <a href="Javascript:editThis('[{$Article.oxid}]','article');" id="jxPrice[{$i}]" style="[{$txtStyle}]}">
+                    <a href="Javascript:editThis('[{$Article.oxid}]','article');" id="jxPrice[{$i}]" style="[{$txtStyle}]}" [{if $Article.oxactive == 0}]disabled="disabled"[{/if}]>
                        [{$Article.oxprice|string_format:"%.2f"}]
                     </a>
                 </td>
@@ -238,7 +315,7 @@ function changeColor(checkValue,rowNumber)
                     [{ assign var="jxavalues" value=$jxavalues|cat:"," }]
 
                 <td class="[{$listclass}]">
-                    <a href="Javascript:editThis('[{$Article.oxid}]','article');" id="jxvalue[{$i}]" style="[{$txtStyle}]}"><span style="color:blue;">
+                    <a href="Javascript:editThis('[{$Article.oxid}]','article');" id="jxvalue[{$i}]" style="[{$txtStyle}]}"><span style="color:blue;" [{if $Article.oxactive == 0}]disabled="disabled"[{/if}]>
                         [{if $k == 1}]
                             [{$Article.jxvalue1}]
                             [{ assign var="jxavalues" value=$jxavalues|cat:$Article.jxvalue1 }]
@@ -267,7 +344,7 @@ function changeColor(checkValue,rowNumber)
                     <input type="checkbox" name="jxupdate_oxid[]" 
                            onclick="changeColor(this.checked,[{$i}]);" 
                            value="[{$Article.oxid}]"
-                            [{if $Article.oxactive == 0}]disabled="disabled"[{/if}]>
+                            [{*if $Article.oxactive == 0}]disabled="disabled"[{/if*}]>
                 </td>
                 [{ assign var="i" value=$i+1 }]
             </tr>
