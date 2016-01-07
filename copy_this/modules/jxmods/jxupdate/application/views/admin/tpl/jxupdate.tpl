@@ -147,7 +147,11 @@ function checkButton()
 
 </script>
 
-    <h1>[{ oxmultilang ident="JXUPDATE_TITLE" }]</h1>
+<h1>[{ oxmultilang ident="JXUPDATE_TITLE" }]
+    <a href="https://github.com/job963/jxUpdate/blob/master/[{ oxmultilang ident="JXUPDATE_HELPFILE" }]" style="color:white;">
+        <div style="margin-left:20px; display:inline-block; border:1px solid darkgray; background-color:darkgray; height:26px; width:26px; border-radius:20px; text-align:center;">?</div>
+    </a>
+</h1>
     <form name="transfer" id="transfer" action="[{ $shop->selflink }]" method="post">
         [{ $shop->hiddensid }]
         <input type="hidden" name="oxid" value="[{ $oxid }]">

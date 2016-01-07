@@ -19,6 +19,8 @@ $aLang = array(
     'JXUPDATE_OXSTOCK'              => 'Lagerbestand',
     'JXUPDATE_OXSTOCKFLAG'          => 'Lieferstatus',
 
+    'JXUPDATE_HELPFILE'             => 'hilfe.md',
+
     'SHOP_MODULE_GROUP_JXUPDATE_IMPORT'             => 'Import Einstellungen',
     'SHOP_MODULE_sJxUpdateDelimeter'                => 'CSV Trennzeichen',
     'SHOP_MODULE_sJxUpdateDelimeter_comma'          => ',',
