@@ -12,10 +12,10 @@ $aLang = array(
     'JXUPDATE_HELPFILE'             => 'help.md',
     
     'SHOP_MODULE_GROUP_JXUPDATE_IMPORT'            => 'Import settings',
-    'SHOP_MODULE_sJxUpdateDelimeter'               => 'CSV delimiter',
-    'SHOP_MODULE_sJxUpdateDelimeter_comma'         => ',',
-    'SHOP_MODULE_sJxUpdateDelimeter_semicolon'     => ';',
-    'SHOP_MODULE_sJxUpdateDelimeter_tabulator'     => 'Tab',
+    'SHOP_MODULE_sJxUpdateDelimiter'               => 'CSV delimiter',
+    'SHOP_MODULE_sJxUpdateDelimiter_comma'         => ',',
+    'SHOP_MODULE_sJxUpdateDelimiter_semicolon'     => ';',
+    'SHOP_MODULE_sJxUpdateDelimiter_tabulator'     => 'Tab',
     
     'charset'                       => 'ISO-8859-15',
 );

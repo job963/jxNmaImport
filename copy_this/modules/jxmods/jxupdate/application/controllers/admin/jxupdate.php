@@ -31,8 +31,8 @@ class jxupdate extends oxAdminView
         parent::render();
         
         $myConfig = oxRegistry::get("oxConfig");
-        $sDelimeter = $myConfig->getConfigParam('sJxUpdateDelimeter');
-        switch ($sDelimeter) {
+        $sDelimiter = $myConfig->getConfigParam('sJxUpdateDelimiter');
+        switch ($sDelimiter) {
             case 'comma':
                 $sDeliChar = ',';
                 break;
@@ -44,6 +44,22 @@ class jxupdate extends oxAdminView
                 break;
             default:
                 $sDeliChar = ',';
+                break;
+        }
+
+        $sEnclosure = $myConfig->getConfigParam('sJxUpdateEnclosure');
+        switch ($sEnclosure) {
+            case 'none':
+                $sEncChar = '';
+                break;
+            case 'quot':
+                $sEncChar = '"';
+                break;
+            case 'apos':
+                $sEncChar = '\'';
+                break;
+            default:
+                $sEncChar = '';
                 break;
         }
 
@@ -64,7 +80,11 @@ class jxupdate extends oxAdminView
             $fh = fopen($_FILES['uploadfile']['tmp_name'],"r");
             
             //get column headers
-            $aRow = fgetcsv($fh, 1000, $sDeliChar);
+            if ($sEncChar != '') {
+                $aRow = fgetcsv($fh, 1000, $sDeliChar, $sEncChar);
+            } else {
+                $aRow = fgetcsv($fh, 1000, $sDeliChar);
+            }
             $this->_aViewData["aCols"] = $aRow;
             $iCols = count($aRow);
             $this->_aViewData["iCols"] = $iCols;
@@ -86,7 +106,12 @@ class jxupdate extends oxAdminView
             }
             $sSql .= ") VALUES (";
             $iSearchRows = 0;
-            while (($aRow = fgetcsv($fh, 1000, $sDeliChar)) !== FALSE) {
+            if ($sEncChar != '') {
+                $aRow = fgetcsv($fh, 1000, $sDeliChar, $sEncChar);
+            } else {
+                $aRow = fgetcsv($fh, 1000, $sDeliChar);
+            }
+            while ($aRow !== FALSE) {
                 switch ($sCompareMode) {
                     case 'equal':
                         $sInsert = $sSql . "'{$aRow[0]}'";
@@ -110,9 +135,17 @@ class jxupdate extends oxAdminView
                 $iSearchRows++;
         
                 $this->_aViewData["sFilename"] = $_FILES['uploadfile']['name'];
-                $this->_aViewData["sSeparator"] = $sDeliChar;
+                $this->_aViewData["sDelimiter"] = $sDelimiter;
+                $this->_aViewData["sEnclosure"] = $sEnclosure;
                 $this->_aViewData["sCompareMode"] = $sCompareMode;
                 $this->_aViewData["sIdField"] = $sIdField;
+
+                // retrieve next line
+                if ($sEncChar != '') {
+                    $aRow = fgetcsv($fh, 1000, $sDeliChar, $sEncChar);
+                } else {
+                    $aRow = fgetcsv($fh, 1000, $sDeliChar);
+                }
             }
             fclose($fh);
         

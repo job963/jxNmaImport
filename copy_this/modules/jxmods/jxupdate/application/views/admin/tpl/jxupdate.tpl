@@ -148,7 +148,7 @@ function checkButton()
 </script>
 
 <h1>[{ oxmultilang ident="JXUPDATE_TITLE" }]
-    <a href="https://github.com/job963/jxUpdate/blob/master/[{ oxmultilang ident="JXUPDATE_HELPFILE" }]" style="color:white;">
+    <a href="https://github.com/job963/jxUpdate/blob/master/docs/[{ oxmultilang ident="JXUPDATE_HELPFILE" }]" style="color:white;" target="_blank">
         <div style="margin-left:20px; display:inline-block; border:1px solid darkgray; background-color:darkgray; height:26px; width:26px; border-radius:20px; text-align:center;">?</div>
     </a>
 </h1>
@@ -196,8 +196,13 @@ function checkButton()
                 [{assign var="sTransIdField" value="SHOP_MODULE_sJxUpdateIdField_"|cat:$sIdField }]
                 <td><b>[{ oxmultilang ident=$sTransIdField }]</b></td>
                 <td>&nbsp;&nbsp;&nbsp;</td>
-                <td>[{ oxmultilang ident="SHOP_MODULE_sJxUpdateDelimeter" }]:</td>
-                <td><b>[{ $sSeparator }]</b></td>
+                <td>[{ oxmultilang ident="SHOP_MODULE_sJxUpdateDelimiter" }]:</td>
+                [{assign var="sTransCDelimiter" value="SHOP_MODULE_sJxUpdateDelimiter_"|cat:$sDelimiter }]
+                <td><b>[{ oxmultilang ident=$sTransCDelimiter }]</b></td>
+                <td>&nbsp;&nbsp;&nbsp;</td>
+                <td>[{ oxmultilang ident="SHOP_MODULE_sJxUpdateEnclosure" }]:</td>
+                [{assign var="sTransEnclosure" value="SHOP_MODULE_sJxUpdateEnclosure_"|cat:$sEnclosure }]
+                <td><b>[{ oxmultilang ident=$sTransEnclosure }]</b></td>
                 <td>&nbsp;&nbsp;&nbsp;</td>
                 <td>[{ oxmultilang ident="SHOP_MODULE_sJxUpdateCompareMode" }]:</td>
                 [{assign var="sTransCompareMode" value="SHOP_MODULE_sJxUpdateCompareMode_"|cat:$sCompareMode }]

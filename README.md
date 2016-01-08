@@ -26,7 +26,7 @@ OXID eShop Admin Extension for Updating Articles by an Import File
     400-03
   
 #### Import for Price Updating ####
-    oxartnum,oxbprice,oxprice
+    oxartnum;oxbprice;oxprice
     3503;15.5;29.75
     3504;12.5;24.75
     400-01;3.5;7.75

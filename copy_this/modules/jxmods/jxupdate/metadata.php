@@ -33,10 +33,18 @@ $aModule = array(
     'settings'     => array(
                         array(
                             'group' => 'JXUPDATE_IMPORT', 
-                            'name'  => 'sJxUpdateDelimeter', 
+                            'name'  => 'sJxUpdateDelimiter', 
                             'type'  => 'select', 
                             'value' => 'comma',
                             'constrains' => 'comma|semicolon|tabulator', 
+                            'position' => 0 
+                            ),
+                        array(
+                            'group' => 'JXUPDATE_IMPORT', 
+                            'name'  => 'sJxUpdateEnclosure', 
+                            'type'  => 'select', 
+                            'value' => 'none',
+                            'constrains' => 'none|quot|apos', 
                             'position' => 0 
                             ),
                         array(
