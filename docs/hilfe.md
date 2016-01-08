@@ -62,6 +62,8 @@ Für die Aktualisierung können folgende Datenbankfelder verwendet werden
 DAY = Tage  
 WEEK = Wochen  
 MONTH = Monate
+* **OXREMINDACTIVE** - Erinnerungsmail, falls Lagerbestand unter _OXREMINDAMOUNT_ sinkt
+* **OXREMINDAMOUNT** - Grenzwert für Erinnerungsmail
 * **OXSTOCKTEXT_ _n_** - Info falls Artikel auf Lager, für Sprache Nr. _n_ 
 * **OXNOSTOCKTEXT_ _n_** - Info falls Artikel nicht auf Lager, für Sprache Nr. _n_ 
 
