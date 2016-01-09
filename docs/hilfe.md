@@ -31,7 +31,7 @@ Die erste Zeile der CSV Datei enthält die Festlegung der Datenbankfelder, die a
     3504;12.5;24.75
     400-01;3.5;7.75
   
-#### Import-Datei für Aktualisierung mit Text-Begrenzungszeichen
+#### Import-Datei für Aktualisierung der EK-Preise mit Text-Begrenzungszeichen
     "oxartnum","oxbprice"
     "3503","15.5"
     "3504","12.5"
@@ -69,7 +69,7 @@ MONTH = Monate
 
 ## Einstellungen
 
-Die Art der Aktualisierung der Artikel und des Datenimports kann im Shop Admin unter _Einstellungen_ - _Module_ - _jxUpdate_ eingestellt werden.
+Die Art der Aktualisierung der Artikel und des Datenimports kann im Shop Admin unter _Erweiterungen_ - _Module_ - _jxUpdate_ - _Einstell._ eingestellt werden.
 
 #### Spalten-Trennzeichen
 Die Datenfelder / Spalten der CSV-Datei können durch drei verschiedene Zeichen  (Komma, Semikolon oder Tabulator) voneinander getrennt werden. Dadurch kann verhindert werden, dass in den Spalten enthaltene Zeichen, z.B. ein Komma, als Spaltentrenner fälschlicherweise interprätiert werden.
@@ -85,9 +85,9 @@ Derzeit werden die Felder _Artikelnummer_, _Hersteller-Artikelnummer_, _EAN_ und
 Der in der Spalte _Identifikationsfeld_ enthaltene Wert kann mit den Möglichkeiten _gleich_, _beginnt mit_, _endet mit_ oder _enthält_ verglichen werden.
 
 **Beispiele**
-gleich: 123 = 123
-beginnt mit: 123XYZ = 123
-endet mit: ABC123 = 123
+gleich: 123 = 123  
+beginnt mit: 123XYZ = 123  
+endet mit: ABC123 = 123  
 enthälz: ABC123XYZ = 123
 
 #### Deaktivierte Artikel einschließen
