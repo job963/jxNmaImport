@@ -193,6 +193,13 @@ class jxupdate extends oxAdminView
             $iFoundRows = count($aArticles);
         }
         
+        if ($iFoundRows > $_SERVER['max_input_vars']) {
+            echo '<div style="border:2px solid #dd0000;margin:10px;padding:5px;background-color:#ffdddd;font-family:sans-serif;font-size:12px;">';
+            echo "{$iFoundRows} rows found, but only {$_SERVER['max_input_vars']} rows supported by your PHP configuration.<br />"
+                . "Please contact your administrator and ask him to increase <i>max_input_vars</i>.";
+            echo '</div>';
+        }
+        
         $this->_aViewData["aArticles"] = $aArticles;
         $this->_aViewData["iSearchRows"] = $iSearchRows;
         $this->_aViewData["iFoundRows"] = $iFoundRows;
@@ -215,12 +222,6 @@ class jxupdate extends oxAdminView
         $aCols = explode( ',', 'empty,'.$this->getConfig()->getRequestParameter( 'jxupdate_acols' ) ); 
         array_shift( $aCols );
         $aValueRows = $this->getConfig()->getRequestParameter( 'jxupdate_avalues' ); 
-        /*echo '<pre>';
-        print_r($aSelOxid);
-        echo '</pre>';
-        /*echo '<pre>';
-        print_r($aValueRows);
-        echo '</pre>';/**/
         
         $oDb = oxDb::getDb();
         
@@ -228,9 +229,7 @@ class jxupdate extends oxAdminView
             $iUpdatedRows = 0;
             foreach ($aSelOxid as $key => $aValueRow) {
                 $aValues = explode( ",", $aValueRow );
-            /*echo '<pre>';
-            print_r($aValues);
-            echo '</pre>';*/
+
                 $sSql = "UPDATE oxarticles SET ";
                 $aSql = array();
                 for ($i=2; $i<=$iCols; $i++) {
