@@ -30,6 +30,12 @@ $aLang = array(
     'JXUPDATE_OXNOSTOCKTEXT_1'      => 'Info falls Artikel nicht auf Lager',
     'JXUPDATE_OXNOSTOCKTEXT_2'      => 'Info falls Artikel nicht auf Lager',
     'JXUPDATE_OXNOSTOCKTEXT_3'      => 'Info falls Artikel nicht auf Lager',
+    
+    'JXUPDATE_MSG_MAXINPUTVARS1'    => '%s Artikel in Importdatei gefunden',
+    'JXUPDATE_MSG_MAXINPUTVARS2'    => 'aber nur %s Artikel werden durch die aktuelle PHP Konfiguration unterst&uuml;tzt.',
+    'JXUPDATE_MSG_MAXINPUTVARS3'    => 'Bitte kontaktieren Sie ihren Administrator um die Einstellung von <i>max_input_vars</i> zu erh&ouml;hen.',
+    'JXUPDATE_MSG_UNKNOWNFIELD'     => 'Fehler in Importdatei: Datenbankfeld(er) <b>%s</b> ist/sind unbekannt',
+    'JXUPDATE_MSG_UPDATED'          => '%s Artikel wurde(n) aktualisiert',
 
     'JXUPDATE_HELPFILE'             => 'hilfe.md',
 

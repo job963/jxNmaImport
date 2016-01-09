@@ -147,6 +147,21 @@ function checkButton()
 
 </script>
 
+[{if ($iFoundRows > $iMaxInputVars) && ($iMaxInputVars != '') }]
+    <div style="border:2px solid #dd0000;margin:10px;padding:5px;background-color:#ffdddd;font-family:sans-serif;font-size:12px;width:80%">
+        [{ oxmultilang ident="JXUPDATE_MSG_MAXINPUTVARS1" args=$iUpdatedRows }], [{ oxmultilang ident="JXUPDATE_MSG_MAXINPUTVARS2" args=$iUpdatedRows }]<br />
+        [{ oxmultilang ident="JXUPDATE_MSG_MAXINPUTVARS3" }]
+    </div
+[{elseif $sUnknownField != '' }]
+    <div style="border:2px solid #dd0000;margin:10px;padding:5px;background-color:#ffdddd;font-family:sans-serif;font-size:12px;width:80%">
+        [{ oxmultilang ident="JXUPDATE_MSG_UNKNOWNFIELD" args=$sUnknownField }]
+    </div>
+[{elseif $iUpdatedRows != '' }]
+    <div style="border:2px solid #00aa00;margin:10px;padding:5px;background-color:#ddffdd;font-family:sans-serif;font-size:12px;width:80%">
+        [{ oxmultilang ident="JXUPDATE_MSG_UPDATED" args=$iUpdatedRows }]
+    </div>
+[{/if}]
+
 <h1>[{ oxmultilang ident="JXUPDATE_TITLE" }]
     <a href="https://github.com/job963/jxUpdate/blob/master/docs/[{ oxmultilang ident="JXUPDATE_HELPFILE" }]" style="color:white;" target="_blank">
         <div style="margin-left:20px; display:inline-block; border:1px solid darkgray; background-color:darkgray; height:26px; width:26px; border-radius:20px; text-align:center;">?</div>

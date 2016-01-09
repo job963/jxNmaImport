@@ -193,16 +193,10 @@ class jxupdate extends oxAdminView
             $iFoundRows = count($aArticles);
         }
         
-        if ($iFoundRows > $_SERVER['max_input_vars']) {
-            echo '<div style="border:2px solid #dd0000;margin:10px;padding:5px;background-color:#ffdddd;font-family:sans-serif;font-size:12px;">';
-            echo "{$iFoundRows} rows found, but only {$_SERVER['max_input_vars']} rows supported by your PHP configuration.<br />"
-                . "Please contact your administrator and ask him to increase <i>max_input_vars</i>.";
-            echo '</div>';
-        }
-        
         $this->_aViewData["aArticles"] = $aArticles;
         $this->_aViewData["iSearchRows"] = $iSearchRows;
         $this->_aViewData["iFoundRows"] = $iFoundRows;
+        $this->_aViewData["iMaxInputVars"] = $_SERVER['max_input_vars'];
         
         $oModule = oxNew('oxModule');
         $oModule->load('jxupdate');
@@ -252,9 +246,7 @@ class jxupdate extends oxAdminView
             $ret = $oDb->Execute($sSql);
             $iUpdatedRows = count($aOxid);
         }
-        echo '<div style="border:2px solid #00aa00;margin:10px;padding:5px;background-color:#ddffdd;font-family:sans-serif;font-size:12px;">';
-        echo "{$iUpdatedRows} rows updated.";
-        echo '</div>';
+        $this->_aViewData["iUpdatedRows"] = $iUpdatedRows;
 
         return;
     }
@@ -264,9 +256,7 @@ class jxupdate extends oxAdminView
         $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
         foreach ($aFields as $key => $sField) {
             if ( !$oDb->getOne( "SHOW COLUMNS FROM oxarticles LIKE '{$sField}'", false, false ) ) {
-                echo '<div style="border:2px solid #dd0000;margin:10px;padding:5px;background-color:#ffdddd;font-family:sans-serif;font-size:12px;">';
-                echo "Error in import file: Database field <b>{$sField}</b> doesn't exist.";
-                echo '</div>';
+                $this->_aViewData["sUnknownField"] = $sField;
             }
         }
     }
