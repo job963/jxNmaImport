@@ -207,41 +207,55 @@ class jxupdate extends oxAdminView
 
 
     
-    public function deactivateArticles ()
+    public function updateArticles ()
     {
         $aSelOxid = $this->getConfig()->getRequestParameter( 'jxupdate_oxid' ); 
         $sAction = $this->getConfig()->getRequestParameter( 'jxupdate_action' ); 
         $iCols = $this->getConfig()->getRequestParameter( 'jxupdate_icols' ); 
-        $aCols = explode( ',', $this->getConfig()->getRequestParameter( 'jxupdate_acols' ) ); 
+        $aCols = explode( ',', 'empty,'.$this->getConfig()->getRequestParameter( 'jxupdate_acols' ) ); 
         array_shift( $aCols );
         $aValueRows = $this->getConfig()->getRequestParameter( 'jxupdate_avalues' ); 
         /*echo '<pre>';
-        print_r($aCols);
-        echo '</pre>';*/
+        print_r($aSelOxid);
+        echo '</pre>';
+        /*echo '<pre>';
+        print_r($aValueRows);
+        echo '</pre>';/**/
         
         $oDb = oxDb::getDb();
         
         if ($sAction == 'update') {
-            foreach ($aSelOxid as $key => $Oxid) {
-                $aValues = explode( ",", $aValueRows[$key] );
+            $iUpdatedRows = 0;
+            foreach ($aSelOxid as $key => $aValueRow) {
+                $aValues = explode( ",", $aValueRow );
             /*echo '<pre>';
             print_r($aValues);
             echo '</pre>';*/
                 $sSql = "UPDATE oxarticles SET ";
                 $aSql = array();
-                for ($i=1; $i<$iCols; $i++) {
+                for ($i=2; $i<=$iCols; $i++) {
                     $aSql[] = $aCols[$i] . "= '" . $aValues[$i] . "'";
                 }
-                $sSql .= implode(', ', $aSql) . " WHERE oxid = '{$Oxid}' ";
+                $sSql .= implode(', ', $aSql) . " WHERE oxid = '{$aValues[0]}' ";
                 //echo $sSql.'<br>';
                 $ret = $oDb->Execute($sSql);
+                $iUpdatedRows++;
             }
         }
         else {
-            $sSql = "UPDATE oxarticles SET oxactive=0 WHERE oxid IN ('" . implode("','", $aSelOxid) . "') ";
+            $aOxid = array();
+            foreach ($aSelOxid as $key => $aValueRow) {
+                $aValues = explode( ",", $aValueRow );
+                $aOxid[] = $aValues[0];
+            }
+            $sSql = "UPDATE oxarticles SET oxactive=0 WHERE oxid IN ('" . implode("','", $aOxid) . "') ";
             //echo $sSql.'<br>';
             $ret = $oDb->Execute($sSql);
+            $iUpdatedRows = count($aOxid);
         }
+        echo '<div style="border:2px solid #00aa00;margin:10px;padding:5px;background-color:#ddffdd;font-family:sans-serif;font-size:12px;">';
+        echo "{$iUpdatedRows} rows updated.";
+        echo '</div>';
 
         return;
     }

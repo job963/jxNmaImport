@@ -227,7 +227,7 @@ function checkButton()
 
                     <td valign="top">
                         &nbsp;&nbsp;&nbsp;<input type="submit" id="btnupdate" [{*name="Submit" *}] disabled="disabled"
-                            onClick="document.forms['jxupdate'].elements['fnc'].value = 'deactivateArticles';" 
+                            onClick="document.forms['jxupdate'].elements['fnc'].value = 'updateArticles';" 
                             value=" [{ oxmultilang ident="JXUPDATE_BTN_UPDATE" }] " />[{*</div>*}]
                     </td>
                 </tr>
@@ -346,13 +346,13 @@ function checkButton()
 
                     [{/if}]
                 [{/foreach}]
-                <input type="hidden" name="jxupdate_avalues[]" value="[{$jxavalues}]">
+                [{*<input type="hidden" name="jxupdate_avalues[]" value="[{$jxavalues}]">*}]
                 
                 
                 <td class="[{$listclass}]" align="center">
                     <input type="checkbox" name="jxupdate_oxid[]" 
                            onclick="changeColor(this.checked,[{$i}]);" 
-                           value="[{$Article.oxid}]"
+                           value="[{$Article.oxid}],[{$jxavalues}]"
                             [{*if $Article.oxactive == 0}]disabled="disabled"[{/if*}]>
                 </td>
                 [{ assign var="i" value=$i+1 }]
