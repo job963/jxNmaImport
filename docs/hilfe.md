@@ -69,7 +69,8 @@ MONTH = Monate
 
 ## Einstellungen
 
-Die Art der Aktualisierung der Artikel und des Datenimports kann im Shop Admin unter _Erweiterungen_ - _Module_ - _jxUpdate_ - _Einstell._ eingestellt werden.
+Die Art der Aktualisierung der Artikel und des Datenimports kann im Shop Admin unter _Erweiterungen_ - _Module_ - _jxUpdate_ - _Einstell._ eingestellt werden.  
+![Einstellungen](https://github.com/job963/jxUpdate/raw/master/docs/img/settings-de.png)
 
 #### Spalten-Trennzeichen
 Die Datenfelder / Spalten der CSV-Datei können durch drei verschiedene Zeichen  (Komma, Semikolon oder Tabulator) voneinander getrennt werden. Dadurch kann verhindert werden, dass in den Spalten enthaltene Zeichen, z.B. ein Komma, als Spaltentrenner fälschlicherweise interprätiert werden.
@@ -84,7 +85,7 @@ Derzeit werden die Felder _Artikelnummer_, _Hersteller-Artikelnummer_, _EAN_ und
 #### Vergleichsart
 Der in der Spalte _Identifikationsfeld_ enthaltene Wert kann mit den Möglichkeiten _gleich_, _beginnt mit_, _endet mit_ oder _enthält_ verglichen werden.
 
-**Beispiele**
+**Beispiele:**  
 gleich: 123 = 123  
 beginnt mit: 123XYZ = 123  
 endet mit: ABC123 = 123  

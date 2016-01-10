@@ -8,6 +8,8 @@ $aLang = array(
     'JXUPDATE_OPTION_UPDATE'        => 'Werte aktualisieren',
     'JXUPDATE_OPTION_DEACTIVATE'    => 'Artikel deaktivieren',
     'JXUPDATE_BTN_UPDATE'           => 'Aktualisieren',
+    'JXUPDATE_OF_PRODUCTS_FOUND1'   => 'von',
+    'JXUPDATE_OF_PRODUCTS_FOUND2'   => 'Artikel gefunden',
     
     'JXUPDATE_OXARTNUM'             => 'Art.-Nr.',
     'JXUPDATE_OXMPN'                => 'Herst. Art.-Nr.',
@@ -26,14 +28,14 @@ $aLang = array(
     'JXUPDATE_OXREMINDAMOUNT'       => 'Erinerungsgrenzwert',
     'JXUPDATE_OXSTOCKTEXT_1'        => 'Info falls Artikel auf Lager',
     'JXUPDATE_OXSTOCKTEXT_2'        => 'Info falls Artikel auf Lager',
-    'JXUPDATE_OXSTOCKTEXT_3'        => 'Info falls Artikel auf Lager    ',
+    'JXUPDATE_OXSTOCKTEXT_3'        => 'Info falls Artikel auf Lager',
     'JXUPDATE_OXNOSTOCKTEXT_1'      => 'Info falls Artikel nicht auf Lager',
     'JXUPDATE_OXNOSTOCKTEXT_2'      => 'Info falls Artikel nicht auf Lager',
     'JXUPDATE_OXNOSTOCKTEXT_3'      => 'Info falls Artikel nicht auf Lager',
     
     'JXUPDATE_MSG_MAXINPUTVARS1'    => '%s Artikel in Importdatei gefunden',
     'JXUPDATE_MSG_MAXINPUTVARS2'    => 'aber nur %s Artikel werden durch die aktuelle PHP Konfiguration unterst&uuml;tzt.',
-    'JXUPDATE_MSG_MAXINPUTVARS3'    => 'Bitte kontaktieren Sie ihren Administrator um die Einstellung von <i>max_input_vars</i> zu erh&ouml;hen.',
+    'JXUPDATE_MSG_MAXINPUTVARS3'    => 'Kontaktieren Sie ihren Administrator um die Einstellung von <i>max_input_vars</i> zu erh&ouml;hen.',
     'JXUPDATE_MSG_UNKNOWNFIELD'     => 'Fehler in Importdatei: Datenbankfeld(er) <b>%s</b> ist/sind unbekannt',
     'JXUPDATE_MSG_UPDATED'          => '%s Artikel wurde(n) aktualisiert',
 
@@ -58,7 +60,7 @@ $aLang = array(
     'SHOP_MODULE_sJxUpdateCompareMode_beginswith'   => 'beginnt mit',
     'SHOP_MODULE_sJxUpdateCompareMode_endswith'     => 'endet mit',
     'SHOP_MODULE_sJxUpdateCompareMode_contains'     => 'enth&auml;lt',
-    'SHOP_MODULE_sJxUpdateIgnoreInactive'           => 'Deaktivierte Artikel einschlie&szig;en',
+    'SHOP_MODULE_sJxUpdateIgnoreInactive'           => 'Deaktivierte Artikel einschlie&szlig;en',
     
     'charset'                       => 'ISO-8859-15',
 );

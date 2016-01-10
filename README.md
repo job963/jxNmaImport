@@ -11,23 +11,25 @@ OXID eShop Admin Extension for Updating Articles by an Import File
   
 ## Screenshots ##
 
-#### Object Log on most of the objects ####
-![Object History Log](https://github.com/job963/jxUpdate/raw/master/docs/img/adminlog_object_history.png)
+#### Overview of found products ####
+![Object History Log](https://github.com/job963/jxUpdate/raw/master/docs/img/found-products.png)
 
-#### Full Log Report ####
-![Full Log Report](https://github.com/job963/jxUpdate/raw/master/docs/img/adminlog_full_history.png)
+#### Settings ####
+![Full Log Report](https://github.com/job963/jxUpdate/raw/master/docs/img/settings-en.png)
 
 ## Example Import Files ##
 
-#### Import for Deactivation ####
+#### Import for simple Deactivation ####
     oxartnum
     3503
     1302
     400-03
   
-#### Import for Price Updating ####
+#### Import for Price Update ####
     oxartnum;oxbprice;oxprice
     3503;15.5;29.75
     3504;12.5;24.75
     400-01;3.5;7.75
 
+
+**A detailed manual you'll find [here](https://github.com/job963/jxUpdate/blob/master/docs/help.md).**

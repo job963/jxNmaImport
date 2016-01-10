@@ -378,7 +378,7 @@ function checkButton()
     </div>
     <div>
         [{if $iSearchRows > 0}]
-            [{$iFoundRows}] von [{$iSearchRows}] Artikel gefunden
+            [{$iFoundRows}] [{ oxmultilang ident="JXUPDATE_OF_PRODUCTS_FOUND1" }] [{$iSearchRows}] [{ oxmultilang ident="JXUPDATE_OF_PRODUCTS_FOUND2" }]
         [{/if}]
     </div>
 </form>
