@@ -89,7 +89,7 @@ Der in der Spalte _Identifikationsfeld_ enthaltene Wert kann mit den Möglichkei
 gleich: 123 = 123  
 beginnt mit: 123XYZ = 123  
 endet mit: ABC123 = 123  
-enthälz: ABC123XYZ = 123
+enthält: ABC123XYZ = 123
 
 #### Deaktivierte Artikel einschließen
 Mit dieser Option kann gesteuert werden, ob deaktivierte Artikel bei der Aktualisierung berücksichtigt oder ignoriert werden.
