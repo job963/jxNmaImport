@@ -10,10 +10,10 @@ $sMetadataVersion = '1.1';
  */
 $aModule = array(
     'id'           => 'jxupdate',
-    'title'        => 'jxUpdate - Update of Articles by Imports',
+    'title'        => 'jxUpdate - Update of Articles by CSV Imports',
     'description'  => array(
-                        'de' => 'Aktualisierung von Artikeln durch CSV Import.',
-                        'en' => 'Updating of products by CSV import.'
+                        'de' => 'Aktualisierung der Artikeln durch CSV Importe.',
+                        'en' => 'Updating the products by CSV imports.'
                         ),
     'thumbnail'    => 'jxupdate.png',
     'version'      => '0.3.1',

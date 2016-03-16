@@ -64,7 +64,6 @@ class jxupdate extends oxAdminView
         }
 
         $sIdField = $myConfig->getConfigParam('sJxUpdateIdField');
-//echo '<b>'.$sIdField.'</b>';
 
         $sCompareMode = $myConfig->getConfigParam('sJxUpdateCompareMode');
 
@@ -131,7 +130,7 @@ class jxupdate extends oxAdminView
                 }
                 $sInsert .= ")";
                 $rs = $oDb->Execute($sInsert);
-//echo '<pre>'.$sInsert.'</pre>';
+
                 $iSearchRows++;
         
                 $this->_aViewData["sFilename"] = $_FILES['uploadfile']['name'];
@@ -164,7 +163,7 @@ class jxupdate extends oxAdminView
                             . $sFields
                         . "FROM oxarticles a, jxtmparticles t "
                         . "WHERE a.{$sIdField} LIKE t.jxsearch "
-                        . $sIgnoreInactive
+                            . $sIgnoreInactive
                         . "ORDER BY a.{$sIdField}";
                 $this->_aViewData["bJxInvarticles"] = FALSE;
             }
@@ -182,7 +181,6 @@ class jxupdate extends oxAdminView
             }
 
             $aArticles = array();
-//echo '<br><b>'.$sSql.'</b>';            
             $rs = $oDb->Execute($sSql);
             if ($rs) {
                 while (!$rs->EOF) {
