@@ -18,7 +18,7 @@
  *
  * @link      https://github.com/job963/jxUpdate
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @copyright (C) Joachim Barthel 2013-2016
+ * @copyright (C) Joachim Barthel 2013-2017
  *
  */
  
@@ -84,10 +84,8 @@ class jxupdate extends oxAdminView
             } else {
                 $aRow = fgetcsv($fh, 1000, $sDeliChar);
             }
-            $this->_aViewData["aCols"] = $aRow;
-            $iCols = count($aRow);
-            $this->_aViewData["iCols"] = $iCols;
-            $this->_checkTableFields($aRow);
+            $aColNames = $aRow;
+            $iCols = count($aColNames);
 
             $sSql = "DROP TEMPORARY TABLE IF EXISTS jxtmparticles";
             $rs = $oDb->Execute($sSql);
@@ -134,10 +132,6 @@ class jxupdate extends oxAdminView
                 $iSearchRows++;
         
                 $this->_aViewData["sFilename"] = $_FILES['uploadfile']['name'];
-                $this->_aViewData["sDelimiter"] = $sDelimiter;
-                $this->_aViewData["sEnclosure"] = $sEnclosure;
-                $this->_aViewData["sCompareMode"] = $sCompareMode;
-                $this->_aViewData["sIdField"] = $sIdField;
 
                 // retrieve next line
                 if ($sEncChar != '') {
@@ -147,16 +141,38 @@ class jxupdate extends oxAdminView
                 }
             }
             fclose($fh);
+            
+            
+            // remove columns with empty title
+            foreach ($aColNames as $key => $sColName) {
+                if ($sColName == "") {
+                    $sSql = "ALTER TABLE jxtmparticles DROP jxvalue{$key} ";
+                    $ret = $oDb->Execute($sSql);
+                    unset($aColNames[$key]);
+                }
+            }
+            $this->_aViewData["aCols"] = $aColNames;
+            $this->_aViewData["iCols"] = count($aColNames);
+            
+            $this->_checkTableFields($aColNames);
         
         
+            // create select fields string
             $sFields = "";
-            for ( $i=1; $i<$iCols; $i++ ) {
-                $sFields .= ", t.jxvalue{$i}";
+            $sSql = "SHOW COLUMNS FROM jxtmparticles LIKE 'jxvalue%' ";
+            $rs = $oDb->Execute($sSql);
+            if ($rs) {
+                while (!$rs->EOF) {
+                    $sFields .= ', ' . $rs->fields['Field'];
+                    $rs->MoveNext();
+                }
             }
             $sFields .= " ";
+            
+            
             $sSql = "SHOW TABLES LIKE 'jxinvarticles' ";
             $rs = $oDb->Execute($sSql);
-            if (!$rs) {
+            if (!$rs->fields) {
                 $sSql = "SELECT a.oxid, a.oxactive, a.oxartnum, a.oxmpn, "
                             . "IF(a.oxparentid='',a.oxtitle,(SELECT CONCAT(b.oxtitle,', ',a.oxvarselect) FROM oxarticles b WHERE a.oxparentid=b.oxid)) AS oxtitle, "
                             . "a.oxean, a.oxdistean, a.oxstock, a.oxstockflag, a.oxprice "
@@ -190,7 +206,12 @@ class jxupdate extends oxAdminView
             }
             $iFoundRows = count($aArticles);
         }
-        
+
+        $this->_aViewData["sDelimiter"] = $sDelimiter;
+        $this->_aViewData["sEnclosure"] = $sEnclosure;
+        $this->_aViewData["sCompareMode"] = $sCompareMode;
+        $this->_aViewData["sIdField"] = $sIdField;
+
         $this->_aViewData["aArticles"] = $aArticles;
         $this->_aViewData["iSearchRows"] = $iSearchRows;
         $this->_aViewData["iFoundRows"] = $iFoundRows;

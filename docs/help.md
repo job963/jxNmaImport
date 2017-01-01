@@ -9,7 +9,8 @@ CSV files are containing usually multiple columns and rows, like an Excel table.
 
 The first column contains the identification value, the text or values which let the module identify the individual product. The following columns are containing the update values. A csv file can have multiple update columns.
 
-The first line (row) of the csv file contains the definition of the database fields, which should be updated. The following lines are containing the update data.
+The first line (row) of the csv file contains the definition of the database fields, which should be updated. If the name of column is empty, this column will be ignored on import.  
+The following lines are containing the update data.
 
 ## Examples
 

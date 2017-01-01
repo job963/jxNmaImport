@@ -205,7 +205,13 @@ function checkButton()
         <table><tr><td>
             Filename: <b>[{ $sFilename }]</b>
         </td></tr></table>
+        [{/if}]
+        
+        <br />
         <table>
+            <tr>
+                <td colspan="10"><span style="font-weight:bold;font-size:1.1em;">[{ oxmultilang ident="SHOP_MODULE_GROUP_JXUPDATE_IMPORT" }]:</span></td>
+            </tr>
             <tr>
                 <td>[{ oxmultilang ident="SHOP_MODULE_sJxUpdateIdField" }]:</td>
                 [{assign var="sTransIdField" value="SHOP_MODULE_sJxUpdateIdField_"|cat:$sIdField }]
@@ -225,7 +231,6 @@ function checkButton()
             </tr>
         </table>
         <br />
-        [{/if}]
 
         [{if $aArticles }]
             <table>
