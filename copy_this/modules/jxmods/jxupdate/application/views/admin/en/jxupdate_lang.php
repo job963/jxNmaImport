@@ -41,7 +41,7 @@ $aLang = array(
 
     'JXUPDATE_HELPFILE'             => 'help.md',
     
-    'SHOP_MODULE_GROUP_JXUPDATE_IMPORT'             => 'Import settings',
+    'SHOP_MODULE_GROUP_JXUPDATE_IMPORT'             => 'Import Settings',
     'SHOP_MODULE_sJxUpdateDelimiter'                => 'Column delimiter',
     'SHOP_MODULE_sJxUpdateDelimiter_comma'          => ',',
     'SHOP_MODULE_sJxUpdateDelimiter_semicolon'      => ';',
@@ -50,6 +50,7 @@ $aLang = array(
     'SHOP_MODULE_sJxUpdateEnclosure_none'           => 'none',
     'SHOP_MODULE_sJxUpdateEnclosure_quot'           => '"',
     'SHOP_MODULE_sJxUpdateEnclosure_apos'           => '\'',
+    'SHOP_MODULE_GROUP_JXUPDATE_UPDATE'             => 'Update Settings',
     'SHOP_MODULE_sJxUpdateIdField'                  => 'Identification field',
     'SHOP_MODULE_sJxUpdateIdField_oxartnum'         => 'Product No.',
     'SHOP_MODULE_sJxUpdateIdField_oxmpn'            => 'Manufacturer Product No.',
@@ -61,6 +62,7 @@ $aLang = array(
     'SHOP_MODULE_sJxUpdateCompareMode_endswith'     => 'ends with',
     'SHOP_MODULE_sJxUpdateCompareMode_contains'     => 'contains',
     'SHOP_MODULE_sJxUpdateIgnoreInactive'           => 'Include deactivated products',
+    'SHOP_MODULE_sJxUpdateIgnoreEmptyValues'        => 'Skip empty values',
     
     'charset'                       => 'ISO-8859-15',
 );

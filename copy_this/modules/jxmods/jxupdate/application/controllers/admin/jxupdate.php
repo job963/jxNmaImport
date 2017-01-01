@@ -154,6 +154,10 @@ class jxupdate extends oxAdminView
             $this->_aViewData["aCols"] = $aColNames;
             $this->_aViewData["iCols"] = count($aColNames);
             
+            if ( $myConfig->getConfigParam('sJxUpdateIgnoreEmptyValues') ) {
+                $this->_removeEmptyValueRows();
+            }
+            
             $this->_checkTableFields($aColNames);
         
         
@@ -266,6 +270,28 @@ class jxupdate extends oxAdminView
             $iUpdatedRows = count($aOxid);
         }
         $this->_aViewData["iUpdatedRows"] = $iUpdatedRows;
+
+        return;
+    }
+    
+    
+    private function _removeEmptyValueRows () {
+        $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
+
+        $sSql = "SHOW COLUMNS FROM jxtmparticles LIKE 'jxvalue%' ";
+        $rs = $oDb->Execute($sSql);
+        
+        $aWhere = array();
+        if ($rs) {
+            while (!$rs->EOF) {
+                $aWhere[] = $rs->fields['Field'] . ' = ""';
+                $rs->MoveNext();
+            }
+        }
+        $sFields = implode(' OR ', $aWhere);
+
+        $sSql = "DELETE FROM jxtmparticles WHERE " . $sFields;
+        $ret = $oDb->Execute($sSql);
 
         return;
     }

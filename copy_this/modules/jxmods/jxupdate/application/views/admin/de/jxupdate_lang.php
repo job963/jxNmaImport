@@ -50,6 +50,7 @@ $aLang = array(
     'SHOP_MODULE_sJxUpdateEnclosure_none'           => 'keines',
     'SHOP_MODULE_sJxUpdateEnclosure_quot'           => '"',
     'SHOP_MODULE_sJxUpdateEnclosure_apos'           => '\'',
+    'SHOP_MODULE_GROUP_JXUPDATE_UPDATE'             => 'Update Einstellungen',
     'SHOP_MODULE_sJxUpdateIdField'                  => 'Identifikationsfeld',
     'SHOP_MODULE_sJxUpdateIdField_oxartnum'         => 'Artikel-Nr.',
     'SHOP_MODULE_sJxUpdateIdField_oxmpn'            => 'Hersteller Art.-Nr.',
@@ -61,6 +62,7 @@ $aLang = array(
     'SHOP_MODULE_sJxUpdateCompareMode_endswith'     => 'endet mit',
     'SHOP_MODULE_sJxUpdateCompareMode_contains'     => 'enth&auml;lt',
     'SHOP_MODULE_sJxUpdateIgnoreInactive'           => 'Deaktivierte Artikel einschlie&szlig;en',
+    'SHOP_MODULE_sJxUpdateIgnoreEmptyValues'        => 'Leere Werte nicht verwenden',
     
     'charset'                       => 'ISO-8859-15',
 );

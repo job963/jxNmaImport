@@ -53,7 +53,7 @@ $aModule = array(
                             'position' => 0 
                             ),
                         array(
-                            'group' => 'JXUPDATE_IMPORT', 
+                            'group' => 'JXUPDATE_UPDATE', 
                             'name'  => 'sJxUpdateIdField', 
                             'type'  => 'select', 
                             'value' => 'oxartnum',
@@ -61,7 +61,7 @@ $aModule = array(
                             'position' => 0 
                             ),
                         array(
-                            'group' => 'JXUPDATE_IMPORT', 
+                            'group' => 'JXUPDATE_UPDATE', 
                             'name'  => 'sJxUpdateCompareMode', 
                             'type'  => 'select', 
                             'value' => 'contains',
@@ -69,8 +69,14 @@ $aModule = array(
                             'position' => 3 
                             ),
                         array(
-                            'group' => 'JXUPDATE_IMPORT', 
+                            'group' => 'JXUPDATE_UPDATE', 
                             'name'  => 'sJxUpdateIgnoreInactive', 
+                            'type'  => 'bool', 
+                            'value' => TRUE
+                            ),
+                        array(
+                            'group' => 'JXUPDATE_UPDATE', 
+                            'name'  => 'sJxUpdateIgnoreEmptyValues', 
                             'type'  => 'bool', 
                             'value' => TRUE
                             ),
