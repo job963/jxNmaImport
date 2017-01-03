@@ -158,7 +158,7 @@ function checkButton()
     </div>
 [{elseif $iUpdatedRows != '' }]
     <div style="border:2px solid #00aa00;margin:10px;padding:5px;background-color:#ddffdd;font-family:sans-serif;font-size:12px;width:80%">
-        [{ oxmultilang ident="JXUPDATE_MSG_UPDATED" args=$iUpdatedRows }]
+        [{ oxmultilang ident="JXUPDATE_MSG_UPDATED" args=$iUpdatedRows }][{if $bLogUpdates}], [{ oxmultilang ident="JXUPDATE_MSG_LOGFILEHINT" }][{/if}]
     </div>
 [{/if}]
 

@@ -38,6 +38,7 @@ $aLang = array(
     'JXUPDATE_MSG_MAXINPUTVARS3'    => 'Kontaktieren Sie ihren Administrator um die Einstellung von <i>max_input_vars</i> zu erh&ouml;hen.',
     'JXUPDATE_MSG_UNKNOWNFIELD'     => 'Fehler in Importdatei: Datenbankfeld(er) <b>%s</b> ist/sind unbekannt',
     'JXUPDATE_MSG_UPDATED'          => '%s Artikel wurde(n) aktualisiert',
+    'JXUPDATE_MSG_LOGFILEHINT'      => 'Details siehe jxupdate.log',
 
     'JXUPDATE_HELPFILE'             => 'hilfe.md',
 
@@ -63,6 +64,7 @@ $aLang = array(
     'SHOP_MODULE_sJxUpdateCompareMode_contains'     => 'enth&auml;lt',
     'SHOP_MODULE_sJxUpdateIgnoreInactive'           => 'Deaktivierte Artikel einschlie&szlig;en',
     'SHOP_MODULE_sJxUpdateIgnoreEmptyValues'        => 'Leere Werte nicht verwenden',
+    'SHOP_MODULE_sJxUpdateLogUpdates'               => 'Aktualisierungen protokollieren',
     
     'charset'                       => 'ISO-8859-15',
 );

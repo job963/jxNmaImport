@@ -80,6 +80,12 @@ $aModule = array(
                             'type'  => 'bool', 
                             'value' => TRUE
                             ),
+                        array(
+                            'group' => 'JXUPDATE_UPDATE', 
+                            'name'  => 'sJxUpdateLogUpdates', 
+                            'type'  => 'bool', 
+                            'value' => TRUE
+                            ),
                         )
     );
 

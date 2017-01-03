@@ -215,6 +215,7 @@ class jxupdate extends oxAdminView
         $this->_aViewData["sEnclosure"] = $sEnclosure;
         $this->_aViewData["sCompareMode"] = $sCompareMode;
         $this->_aViewData["sIdField"] = $sIdField;
+        $this->_aViewData["bLogUpdates"] = $myConfig->getConfigParam('sJxUpdateLogUpdates');
 
         $this->_aViewData["aArticles"] = $aArticles;
         $this->_aViewData["iSearchRows"] = $iSearchRows;
@@ -271,11 +272,16 @@ class jxupdate extends oxAdminView
         }
         $this->_aViewData["iUpdatedRows"] = $iUpdatedRows;
 
+        if ( oxRegistry::get("oxConfig")->getConfigParam('sJxUpdateLogUpdates') ) {
+            $this->_logUpdates($aSelOxid);
+        }
+        
         return;
     }
     
     
-    private function _removeEmptyValueRows () {
+    private function _removeEmptyValueRows () 
+    {
         $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
 
         $sSql = "SHOW COLUMNS FROM jxtmparticles LIKE 'jxvalue%' ";
@@ -297,13 +303,44 @@ class jxupdate extends oxAdminView
     }
     
     
-    private function _checkTableFields ($aFields) {
+    private function _checkTableFields ($aFields) 
+    {
         $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
         foreach ($aFields as $key => $sField) {
             if ( !$oDb->getOne( "SHOW COLUMNS FROM oxarticles LIKE '{$sField}'", false, false ) ) {
                 $this->_aViewData["sUnknownField"] = $sField;
             }
         }
+    }
+    
+    
+    private function _logUpdates ($aSelOxid) 
+    {
+        foreach ($aSelOxid as $key => $aValueRow) {
+            $aValues = explode( ",", $aValueRow );
+            $aOxid[] = $aValues[0];
+        }
+        
+        
+        $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
+
+        $sSql = "SELECT oxartnum FROM oxarticles WHERE oxid IN ('" . implode("','", $aOxid) . "') ";
+        $rs = $oDb->Execute($sSql);
+        $aArtnum = array();
+        while (!$rs->EOF) {
+            array_push($aArtnum, $rs->fields['oxartnum']);
+            $rs->MoveNext();
+        }
+        
+        
+        $sLogPath = oxRegistry::get("oxConfig")->getConfigParam("sShopDir") . '/log/';
+        $fh = fopen($sLogPath.'jxupdate.log', "a+");
+        
+        fputs( $fh, date("Y-m-d H:i:s") . " - Updated Articles:\n" );                
+        fputs( $fh, implode(", ", $aArtnum) . "\n\n" );
+        
+        fclose($fh);
+
     }
 
 }
