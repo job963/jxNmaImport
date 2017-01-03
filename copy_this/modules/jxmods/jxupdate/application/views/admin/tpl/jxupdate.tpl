@@ -7,7 +7,7 @@ var rowschecked = 0;
 var updateDisplay = true;
 
 
-    if(top)
+if(top)
   {
     top.sMenuItem    = "[{ oxmultilang ident="mxuadmin" }]";
     top.sMenuSubItem = "[{ oxmultilang ident="jxupdate_menu" }]";
@@ -55,6 +55,7 @@ function editThis( sID, sClass )
     oTransfer.submit();
 }
 
+
 function change_all( name, elem )
 {
     if(!elem || !elem.form) 
@@ -65,15 +66,21 @@ function change_all( name, elem )
         return alert(name + " doesn't exist!");
 
     updateDisplay = false;
-    if (!chkbox.length) 
+    if (!chkbox.length) {
         chkbox.checked = elem.checked; 
-    else 
+        if (chkbox.disabled == false) {
+            chkbox.checked = elem.checked;
+            changeColor(elem.checked,0);
+        }
+    }
+    else {
         for(var i = 0; i < chkbox.length; i++) {
             if (chkbox[i].disabled == false) {
                 chkbox[i].checked = elem.checked;
                 changeColor(elem.checked,i);
             }
         }
+    }
     
     updateDisplay = true;
     //document.getElementById('rowschecked').innerHTML = rowschecked;
@@ -83,6 +90,7 @@ function change_all( name, elem )
         document.getElementById('btnupdate').disabled = true;*/
     checkButton();
 }
+
 
 function changeColor(checkValue,rowNumber)
 {
@@ -106,6 +114,7 @@ function changeColor(checkValue,rowNumber)
         rowschecked = 0;
         //document.getElementById('maincheck').checked = false;
     }
+    [{if $iFoundRows == ""}][{assign var="iFoundRows" value=0}]/*iFoundRows resetted*/[{/if}]
     if (rowschecked > [{$iFoundRows}]) {
         rowschecked = [{$iFoundRows}];
     }

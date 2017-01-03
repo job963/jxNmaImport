@@ -68,12 +68,13 @@ class jxupdate extends oxAdminView
         $sCompareMode = $myConfig->getConfigParam('sJxUpdateCompareMode');
 
         if( $myConfig->getConfigParam('sJxUpdateIgnoreInactive') == True ) {
-            $sIgnoreInactive = "";
+            $sIgnoreInactive = "a.oxactive LIKE '%' ";
         } else {
-            $sIgnoreInactive = "AND a.oxactive = 1 ";
+            $sIgnoreInactive = "a.oxactive = 1 ";
         }
         
         $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
+        $iFoundRows = 0;
 
         if ($_FILES['uploadfile']['tmp_name'] != '') {
             $fh = fopen($_FILES['uploadfile']['tmp_name'],"r");
@@ -183,7 +184,7 @@ class jxupdate extends oxAdminView
                             . $sFields
                         . "FROM oxarticles a, jxtmparticles t "
                         . "WHERE a.{$sIdField} LIKE t.jxsearch "
-                            . $sIgnoreInactive
+                            . "AND" . $sIgnoreInactive
                         . "ORDER BY a.{$sIdField}";
                 $this->_aViewData["bJxInvarticles"] = FALSE;
             }
@@ -195,7 +196,7 @@ class jxupdate extends oxAdminView
                         . "FROM oxarticles a "
                         . "INNER JOIN jxtmparticles t ON (a.{$sIdField} LIKE t.jxsearch) "
                         . "LEFT JOIN (jxinvarticles i) ON (a.oxid = i.jxartid) "
-                        //. "WHERE a.oxactive = 1 ";
+                        . "WHERE " . $sIgnoreInactive
                         . "ORDER BY a.{$sIdField} ";
                 $this->_aViewData["bJxInvarticles"] = TRUE;
             }
@@ -308,7 +309,7 @@ class jxupdate extends oxAdminView
         $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
         foreach ($aFields as $key => $sField) {
             if ( !$oDb->getOne( "SHOW COLUMNS FROM oxarticles LIKE '{$sField}'", false, false ) ) {
-                $this->_aViewData["sUnknownField"] = $sField;
+                $this->_aViewData["sUnknownField"] = $rs->fields['Field'];$sField;
             }
         }
     }

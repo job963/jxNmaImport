@@ -21,7 +21,7 @@ $aModule = array(
                         'en' => 'Updating the products by CSV imports.'
                         ),
     'thumbnail'    => 'jxupdate.png',
-    'version'      => '0.4.0',
+    'version'      => '0.4.1',
     'author'       => 'Joachim Barthel',
     'url'          => 'https://github.com/job963/jxUpdate',
     'email'        => 'jobarthel@gmail.com',
